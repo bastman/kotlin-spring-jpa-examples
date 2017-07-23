@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev
+  http:
+    converters:
+      preferred-json-mapper: jackson
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+---
+spring:
+  profiles: dev
+  datasource:
+      url: jdbc:postgresql://localhost:5432/example
+      username: example
+      password: example
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        generate_statistics: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: info
+

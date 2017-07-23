@@ -1,0 +1,15 @@
+# os
+.DS_Store
+
+# gradle
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+
+# idea
+*.iml
+.idea
+out/
+
+# project
+build
+
