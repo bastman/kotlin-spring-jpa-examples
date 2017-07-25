@@ -9,6 +9,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        # do not allow hibernate to change db schema! just validate it.
+        ddl-auto: validate
   jackson:
     serialization:
       write_dates_as_timestamps: false

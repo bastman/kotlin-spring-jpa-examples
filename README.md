@@ -21,3 +21,10 @@ playground for kotlin, spring boot and jpa
 - https://github.com/gothinkster/kotlin-spring-realworld-example-app/blob/master/src/main/kotlin/io/realworld/ApiApplication.kt
 - https://github.com/arawn/kotlin-spring-example/blob/master/src/main/kotlin/org/ksug/forum/web/ForumRestController.kt
 
+
+## findings
+
+### immutable data class as @Entity
+- in jpa/hibernate context it gets proxied by cglib & bean validation works
+- entity.copy() -> triggers init() method, if there is one
+

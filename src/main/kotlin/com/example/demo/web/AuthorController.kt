@@ -2,7 +2,10 @@ package com.example.demo.web
 
 import com.example.demo.jpa.Author
 import com.example.demo.jpa.AuthorRepository
+import com.example.demo.jpa.JpaAuthorService
+import com.example.demo.logging.AppLogger
 import com.example.demo.util.optionals.toNullable
+import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
@@ -14,7 +17,8 @@ import javax.validation.constraints.Size
 
 @RestController
 class AuthorController(
-        private val authorRepository: AuthorRepository
+        private val authorRepository: AuthorRepository,
+        private val jpaAuthorService:JpaAuthorService
 ) {
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -38,8 +42,11 @@ class AuthorController(
     @PostMapping("/authors/{authorId}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun update(
             @PathVariable authorId: UUID,
-            @Validated @RequestBody request: UpdateRequest
+
+            @Validated
+            @RequestBody request: UpdateRequest
     ): Any? {
+        LOG.info("update() authorId=$authorId payload=$request")
         val oldEntity = authorRepository
                 .getById(authorId)
                 .toNullable() ?: throw EntityNotFoundException("author not found! author.id=$authorId")
@@ -52,6 +59,9 @@ class AuthorController(
         )
 
         val savedEntity = authorRepository.save(modifiedEntity)
+      //  val savedEntity = jpaAuthorService.save(modifiedEntity)
+
+        LOG.info("update() DONE. authorId=$authorId savedEntity=$savedEntity")
 
         return savedEntity
     }
@@ -85,5 +95,9 @@ class AuthorController(
             @get:NotBlank
             val lastName: String
     )
+
+    companion object {
+        private val LOG = AppLogger(this::class)
+    }
 }
 
