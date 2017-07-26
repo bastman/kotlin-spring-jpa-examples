@@ -9,13 +9,11 @@ import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.*
 import javax.validation.constraints.Size
-import javax.validation.executable.ValidateOnExecution
 
 @Entity
 data class Author(
         @Id
-        // @Type(type = "uuid-char")
-        @Column(name = "id", columnDefinition = "BINARY(16)")
+        @Type(type = JpaTypes.UUID)
         val id: UUID,
         @Version
         val version: Int = -1,
@@ -79,7 +77,7 @@ data class Author(
 @Entity
 data class Tweet(
         @Id
-        @Type(type = "uuid-char")
+        @Type(type = JpaTypes.UUID)
         val id: UUID,
         @Version
         val version: Int,
