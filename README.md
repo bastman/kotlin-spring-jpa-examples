@@ -28,3 +28,6 @@ playground for kotlin, spring boot and jpa
 - in jpa/hibernate context it gets proxied by cglib & bean validation works
 - entity.copy() -> triggers init() method, if there is one
 
+## querydsl
+-https://github.com/spring-projects/spring-data-examples/tree/master/web/querydsl
+
