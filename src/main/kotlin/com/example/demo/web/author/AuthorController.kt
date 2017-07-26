@@ -84,15 +84,10 @@ class AuthorController(
             @RequestParam(defaultValue = "firstName")
             sortedBy: String,
             @RequestParam(defaultValue = "DESC")
-            sortDirection: Sort.Direction//,
-            //@ApiParam(value = "Parameters to filter the results by.")
-            //@RequestParam(required = false)
-            //parameters: Map<String, String>
+            sortDirection: Sort.Direction
     ): Any? {
         val pageRequest = PageRequest(page, pageSize, sortDirection, sortedBy)
-
         val pageResult = jpaAuthorService.findAll(pageRequest)
-
         val response = FindAllResponse(
                 authors = pageResult.content.toList(),
                 pagination = Pagination.ofPageResult(pageResult)

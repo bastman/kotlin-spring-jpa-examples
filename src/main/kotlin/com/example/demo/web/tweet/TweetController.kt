@@ -4,12 +4,11 @@ import com.example.demo.domain.author.JpaAuthorService
 import com.example.demo.domain.tweet.JpaTweetService
 import com.example.demo.jpa.Author
 import com.example.demo.jpa.Tweet
+import com.example.demo.util.fp.pipeTo
 import io.swagger.annotations.ApiModel
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.*
 
@@ -38,10 +37,60 @@ class TweetController(
         return savedEntity
     }
 
+    @GetMapping("/tweets/{tweetId}")
+    fun getOne(
+            @PathVariable tweetId: UUID
+    ): Any? {
+        val entity: Tweet = jpaTweetService
+                .getById(tweetId)
+
+        return entity
+    }
+
+    @PostMapping("/tweets/{tweetId}")
+    fun update(
+            @PathVariable tweetId: UUID,
+            @Validated @RequestBody request: UpdateRequest
+    ): Any? {
+        val sourceTweet: Tweet = jpaTweetService.getById(tweetId = tweetId)
+
+        val sinkTweet: Tweet = sourceTweet
+                .pipeTo {
+                    if (request.authorId != null) {
+                        val author: Author = jpaAuthorService.getById(authorId = request.authorId)
+                        it.copy(author = author)
+                    } else {
+                        it
+                    }
+                }
+                .pipeTo {
+                    if (request.message != null) {
+                        it.copy(message = request.message)
+                    } else {
+                        it
+                    }
+                }
+
+        val resultEntity = if (sinkTweet != sourceTweet) {
+            jpaTweetService.save(sinkTweet.copy(modifiedAt = Instant.now()))
+        } else {
+            sourceTweet
+        }
+
+        return resultEntity
+    }
+
 
     @ApiModel(value = "Tweet.CreateRequest")
     data class CreateRequest(
             val authorId: UUID,
             val message: String
     )
+
+    @ApiModel(value = "Tweet.UpdateRequest")
+    data class UpdateRequest(
+            val authorId: UUID?,
+            val message: String?
+    )
 }
+
