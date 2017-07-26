@@ -13,4 +13,6 @@ interface AuthorRepository : JpaRepository<Author, UUID> {
 
 @Repository
 //@Transactional(Transactional.TxType.MANDATORY)
-interface TweetRepository : JpaRepository<Tweet, UUID>
+interface TweetRepository : JpaRepository<Tweet, UUID> {
+    fun getById(id: UUID): Optional<Tweet>
+}

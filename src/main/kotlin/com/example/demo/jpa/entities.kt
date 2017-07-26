@@ -2,6 +2,7 @@ package com.example.demo.jpa
 
 import com.example.demo.logging.AppLogger
 import org.hibernate.annotations.Type
+import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
 import org.springframework.validation.annotation.Validated
 import java.time.Instant
@@ -17,17 +18,19 @@ data class Author(
         val id: UUID,
         @Version
         val version: Int = -1,
-        @Column(name = "created_at")
+        @Column(name = "created_at", nullable = false)
         val createdAt: Instant,
-        @Column(name = "modified_at")
+        @Column(name = "modified_at", nullable = false)
         val modifiedAt: Instant,
 
-        @Column(name = "email")
-        @get:NotBlank @get:Size(min = 5, max = 15)
+        @Column(name = "email", nullable = false)
+        @get: [NotBlank Email]
         val email: String,
-        @Column(name = "first_name")
+        @Column(name = "first_name", nullable = false)
+        @get:[NotBlank Size(min = 3, max = 40)]
         val firstName: String,
-        @Column(name = "last_name")
+        @Column(name = "last_name", nullable = false)
+        @get:[NotBlank Size(min = 3, max = 40)]
         val lastName: String
 ) {
 
@@ -80,16 +83,16 @@ data class Tweet(
         @Type(type = JpaTypes.UUID)
         val id: UUID,
         @Version
-        val version: Int,
-        @Column(name = "created_at")
+        val version: Int = -1,
+        @Column(name = "created_at", nullable = false)
         val createdAt: Instant,
-        @Column(name = "modified_at")
+        @Column(name = "modified_at", nullable = false)
         val modifiedAt: Instant,
 
         @ManyToOne
-        @JoinColumn(name = "author")
+        @JoinColumn(name = "author.id", nullable = false)
         val author: Author,
 
-        @Column(name = "message")
+        @Column(name = "message", nullable = false)
         val message: String
 )

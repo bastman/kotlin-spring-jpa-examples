@@ -3,7 +3,12 @@ package com.example.demo.web.author
 import com.example.demo.domain.author.JpaAuthorService
 import com.example.demo.jpa.Author
 import com.example.demo.logging.AppLogger
+import com.example.demo.web.common.Pagination
+import io.swagger.annotations.ApiModel
+import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -18,7 +23,8 @@ class AuthorController(
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun create(
-            @Validated @RequestBody request: CreateRequest
+            @Validated
+            @RequestBody request: CreateRequest
     ): Any? {
         val now = Instant.now()
         val entity = Author(
@@ -69,22 +75,55 @@ class AuthorController(
         return entity
     }
 
+    @GetMapping("/authors")
+    fun findAll(
+            @RequestParam(defaultValue = "0")
+            page: Int,
+            @RequestParam(defaultValue = "20")
+            pageSize: Int,
+            @RequestParam(defaultValue = "firstName")
+            sortedBy: String,
+            @RequestParam(defaultValue = "DESC")
+            sortDirection: Sort.Direction//,
+            //@ApiParam(value = "Parameters to filter the results by.")
+            //@RequestParam(required = false)
+            //parameters: Map<String, String>
+    ): Any? {
+        val pageRequest = PageRequest(page, pageSize, sortDirection, sortedBy)
 
+        val pageResult = jpaAuthorService.findAll(pageRequest)
+
+        val response = FindAllResponse(
+                authors = pageResult.content.toList(),
+                pagination = Pagination.ofPageResult(pageResult)
+        )
+
+        return response
+    }
+
+    data class FindAllResponse(
+            val authors: List<Author>,
+            val pagination: Pagination
+    )
+
+
+    @ApiModel(value = "Author.CreateRequest")
     data class CreateRequest(
-            @get:Size(min = 5, max = 15)
+            @get:[NotBlank Email]
             val email: String,
-            @get:NotBlank @get:Size(min = 5, max = 15)
+            @get:[NotBlank Size(min = 5, max = 15)]
             val firstName: String,
-            @get:NotBlank
+            @get:[NotBlank Size(min = 5, max = 15)]
             val lastName: String
     )
 
+    @ApiModel(value = "Author.UpdateRequest")
     data class UpdateRequest(
-            @get:Size(min = 5, max = 15)
+            @get:[NotBlank Email]
             val email: String,
-            @get:NotBlank @get:Size(min = 5, max = 15)
+            @get:[NotBlank Size(min = 5, max = 15)]
             val firstName: String,
-            @get:NotBlank
+            @get:[NotBlank Size(min = 5, max = 15)]
             val lastName: String
     )
 
