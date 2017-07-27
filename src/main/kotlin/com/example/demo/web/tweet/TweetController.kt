@@ -4,7 +4,7 @@ import com.example.demo.domain.author.JpaAuthorService
 import com.example.demo.domain.tweet.JpaTweetService
 import com.example.demo.jpa.Author
 import com.example.demo.jpa.Tweet
-import com.example.demo.util.fp.pipeTo
+import com.example.demo.util.fp.pipe
 import io.swagger.annotations.ApiModel
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
@@ -55,29 +55,23 @@ class TweetController(
         val sourceTweet: Tweet = jpaTweetService.getById(tweetId = tweetId)
 
         val sinkTweet: Tweet = sourceTweet
-                .pipeTo {
+                .pipe {
                     if (request.authorId != null) {
                         val author: Author = jpaAuthorService.getById(authorId = request.authorId)
                         it.copy(author = author)
-                    } else {
-                        it
-                    }
-                }
-                .pipeTo {
+                    } else { it }
+                } pipe {
                     if (request.message != null) {
                         it.copy(message = request.message)
-                    } else {
-                        it
-                    }
+                    } else { it }
+                } pipe {
+                    val isModified = it != sourceTweet
+                    if (isModified) {
+                        jpaTweetService.save(it.copy(modifiedAt = Instant.now()))
+                    } else { it }
                 }
 
-        val resultEntity = if (sinkTweet != sourceTweet) {
-            jpaTweetService.save(sinkTweet.copy(modifiedAt = Instant.now()))
-        } else {
-            sourceTweet
-        }
-
-        return resultEntity
+        return sinkTweet
     }
 
 
