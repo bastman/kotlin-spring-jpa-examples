@@ -58,7 +58,7 @@ class AuthorController(
                 //, modifiedAt = Instant.now()
         )
 
-        val finalEntity = if(modifiedEntity!=oldEntity) {
+        val finalEntity = if (modifiedEntity != oldEntity) {
             val savedEntity = jpaAuthorService.save(modifiedEntity)
             LOG.info("update() DONE. authorId=$authorId savedEntity=$savedEntity")
 

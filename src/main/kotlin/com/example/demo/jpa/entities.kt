@@ -1,46 +1,17 @@
 package com.example.demo.jpa
 
 import com.example.demo.logging.AppLogger
-import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.validation.annotation.Validated
 import java.time.Instant
 import java.util.*
-import javax.annotation.PostConstruct
 import javax.persistence.*
 import javax.validation.constraints.Size
-import kotlin.jvm.Transient
-
-
-/*
-class AuditListener {
-
-    @PrePersist
-    @PreUpdate
-    @PreRemove
-    private fun beforeAnyOperation(o:Any?) {
-        println(o)
-    }
-
-}
-*/
-
-class MyListener() {
-    @PrePersist
-    @PreUpdate
-    @PreRemove
-    fun foo(o:Any?) {
-        println("foo!!!")
-    }
-}
 
 @Entity
-@EntityListeners(MyListener::class)
+@EntityListeners(MyAuditListener::class)
 data class Author(
         @Id
         @Type(type = JpaTypes.UUID)
@@ -63,8 +34,8 @@ data class Author(
         val lastName: String
 ) {
 
-    fun getCreatedAt():Instant = createdAt
-    fun getModifiedAt():Instant = modifiedAt
+    fun getCreatedAt(): Instant = createdAt
+    fun getModifiedAt(): Instant = modifiedAt
 
     @PostLoad
     private fun postLoad() {
@@ -72,7 +43,7 @@ data class Author(
     }
 
     @PreUpdate @Validated
-    private fun beforeUpdate(){
+    private fun beforeUpdate() {
         this.modifiedAt = Instant.now()
         LOG.info("beforeUpdate $this")
     }
@@ -95,6 +66,7 @@ data class Author(
 }
 
 @Entity
+@EntityListeners(MyAuditListener::class)
 data class Tweet(
         @Id
         @Type(type = JpaTypes.UUID)
@@ -114,8 +86,8 @@ data class Tweet(
         val message: String
 ) {
 
-    fun getCreatedAt():Instant = createdAt
-    fun getModifiedAt():Instant = modifiedAt
+    fun getCreatedAt(): Instant = createdAt
+    fun getModifiedAt(): Instant = modifiedAt
 
     @PostLoad
     private fun postLoad() {
@@ -123,7 +95,7 @@ data class Tweet(
     }
 
     @PreUpdate @Validated
-    private fun beforeUpdate(){
+    private fun beforeUpdate() {
         this.modifiedAt = Instant.now()
         LOG.info("beforeUpdate $this")
     }

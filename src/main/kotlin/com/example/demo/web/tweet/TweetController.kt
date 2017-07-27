@@ -59,17 +59,23 @@ class TweetController(
                     if (request.authorId != null) {
                         val author: Author = jpaAuthorService.getById(authorId = request.authorId)
                         it.copy(author = author)
-                    } else { it }
+                    } else {
+                        it
+                    }
                 } pipe {
-                    if (request.message != null) {
-                        it.copy(message = request.message)
-                    } else { it }
-                } pipe {
-                    val isModified = it != sourceTweet
-                    if (isModified) {
-                        jpaTweetService.save(it.copy(modifiedAt = Instant.now()))
-                    } else { it }
-                }
+            if (request.message != null) {
+                it.copy(message = request.message)
+            } else {
+                it
+            }
+        } pipe {
+            val isModified = it != sourceTweet
+            if (isModified) {
+                jpaTweetService.save(it.copy(modifiedAt = Instant.now()))
+            } else {
+                it
+            }
+        }
 
         return sinkTweet
     }
