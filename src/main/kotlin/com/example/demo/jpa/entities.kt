@@ -1,17 +1,46 @@
 package com.example.demo.jpa
 
 import com.example.demo.logging.AppLogger
+import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.validation.annotation.Validated
 import java.time.Instant
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.*
 import javax.validation.constraints.Size
+import kotlin.jvm.Transient
+
+
+/*
+class AuditListener {
+
+    @PrePersist
+    @PreUpdate
+    @PreRemove
+    private fun beforeAnyOperation(o:Any?) {
+        println(o)
+    }
+
+}
+*/
+
+class MyListener() {
+    @PrePersist
+    @PreUpdate
+    @PreRemove
+    fun foo(o:Any?) {
+        println("foo!!!")
+    }
+}
 
 @Entity
+@EntityListeners(MyListener::class)
 data class Author(
         @Id
         @Type(type = JpaTypes.UUID)
@@ -19,9 +48,9 @@ data class Author(
         @Version
         val version: Int = -1,
         @Column(name = "created_at", nullable = false)
-        val createdAt: Instant,
+        private var createdAt: Instant,
         @Column(name = "modified_at", nullable = false)
-        val modifiedAt: Instant,
+        private var modifiedAt: Instant,
 
         @Column(name = "email", nullable = false)
         @get: [NotBlank Email]
@@ -33,6 +62,11 @@ data class Author(
         @get:[NotBlank Size(min = 3, max = 40)]
         val lastName: String
 ) {
+
+    fun getCreatedAt():Instant = createdAt
+    fun getModifiedAt():Instant = modifiedAt
+
+
 
     // (1) hibernate: postLoad
     // (2) kotlin: init just called if you ... newEntity = old.copy()
@@ -49,8 +83,10 @@ data class Author(
 
     @PreUpdate
     @Validated
-    fun preUpdate() {
+    fun beforeUpdate() {
         LOG.info("preUpdate $this")
+        this.modifiedAt = Instant.now()
+        LOG.info("preUpdate. done: $this")
     }
 
 
@@ -61,14 +97,18 @@ data class Author(
     }
 
     @PrePersist
-    fun prePersist() {
-        // never gets called
-        LOG.info("prePersist $this")
+    @Validated
+    fun beforeInsert() {
+        // before insert
+        LOG.info("preInsert $this")
+        createdAt = Instant.now()
+        modifiedAt = Instant.now()
+        LOG.info("preInsert. done: $this")
     }
 
     @PostPersist
     fun postPersist() {
-        // never gets called
+        // after insert
         LOG.info("postPersist $this")
     }
 

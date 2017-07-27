@@ -54,15 +54,20 @@ class AuthorController(
         val modifiedEntity = oldEntity.copy(
                 email = request.email,
                 firstName = request.firstName,
-                lastName = request.lastName,
-                modifiedAt = Instant.now()
+                lastName = request.lastName
+                //, modifiedAt = Instant.now()
         )
 
-        val savedEntity = jpaAuthorService.save(modifiedEntity)
+        val finalEntity = if(modifiedEntity!=oldEntity) {
+            val savedEntity = jpaAuthorService.save(modifiedEntity)
+            LOG.info("update() DONE. authorId=$authorId savedEntity=$savedEntity")
 
-        LOG.info("update() DONE. authorId=$authorId savedEntity=$savedEntity")
+            savedEntity
+        } else {
+            oldEntity
+        }
 
-        return savedEntity
+        return finalEntity
     }
 
     @GetMapping("/authors/{authorId}")
