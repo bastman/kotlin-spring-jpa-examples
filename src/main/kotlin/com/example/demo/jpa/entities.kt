@@ -66,8 +66,6 @@ data class Author(
     fun getCreatedAt():Instant = createdAt
     fun getModifiedAt():Instant = modifiedAt
 
-
-
     // (1) hibernate: postLoad
     // (2) kotlin: init just called if you ... newEntity = old.copy()
     // (3) hibernate: preUpdate

@@ -28,3 +28,11 @@ playground for kotlin, spring boot and jpa
 - in jpa/hibernate context it gets proxied by cglib & bean validation works
 - entity.copy() -> triggers init() method, if there is one
 
+
+## jetbrains gradle plugin:
+
+https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/Module.md
+
+## querydsl: 
+
+https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
