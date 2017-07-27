@@ -66,48 +66,27 @@ data class Author(
     fun getCreatedAt():Instant = createdAt
     fun getModifiedAt():Instant = modifiedAt
 
-    // (1) hibernate: postLoad
-    // (2) kotlin: init just called if you ... newEntity = old.copy()
-    // (3) hibernate: preUpdate
-    init {
-        // not executed by hibernate
-        LOG.info("init $this")
-    }
-
     @PostLoad
-    fun postLoad() {
+    private fun postLoad() {
         LOG.info("postLoad $this")
     }
 
-    @PreUpdate
-    @Validated
-    fun beforeUpdate() {
-        LOG.info("preUpdate $this")
+    @PreUpdate @Validated
+    private fun beforeUpdate(){
         this.modifiedAt = Instant.now()
-        LOG.info("preUpdate. done: $this")
+        LOG.info("beforeUpdate $this")
     }
 
-
-    @PostConstruct
-    fun postConstruct() {
-        // never gets called
-        LOG.info("postConstruct $this")
-    }
-
-    @PrePersist
-    @Validated
-    fun beforeInsert() {
-        // before insert
-        LOG.info("preInsert $this")
+    @PrePersist @Validated
+    private fun beforeInsert() {
         createdAt = Instant.now()
         modifiedAt = Instant.now()
-        LOG.info("preInsert. done: $this")
+        LOG.info("beforeInsert $this")
     }
 
     @PostPersist
-    fun postPersist() {
-        // after insert
-        LOG.info("postPersist $this")
+    private fun afterInsert() {
+        LOG.info("afterInsert $this")
     }
 
     companion object {
@@ -123,9 +102,9 @@ data class Tweet(
         @Version
         val version: Int = -1,
         @Column(name = "created_at", nullable = false)
-        val createdAt: Instant,
+        private var createdAt: Instant,
         @Column(name = "modified_at", nullable = false)
-        val modifiedAt: Instant,
+        private var modifiedAt: Instant,
 
         @ManyToOne
         @JoinColumn(name = "author.id", nullable = false)
@@ -133,4 +112,35 @@ data class Tweet(
 
         @Column(name = "message", nullable = false)
         val message: String
-)
+) {
+
+    fun getCreatedAt():Instant = createdAt
+    fun getModifiedAt():Instant = modifiedAt
+
+    @PostLoad
+    private fun postLoad() {
+        LOG.info("postLoad $this")
+    }
+
+    @PreUpdate @Validated
+    private fun beforeUpdate(){
+        this.modifiedAt = Instant.now()
+        LOG.info("beforeUpdate $this")
+    }
+
+    @PrePersist @Validated
+    private fun beforeInsert() {
+        createdAt = Instant.now()
+        modifiedAt = Instant.now()
+        LOG.info("beforeInsert $this")
+    }
+
+    @PostPersist
+    private fun afterInsert() {
+        LOG.info("afterInsert $this")
+    }
+
+    companion object {
+        private val LOG = AppLogger(this::class)
+    }
+}
