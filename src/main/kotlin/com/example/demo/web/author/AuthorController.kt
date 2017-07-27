@@ -3,6 +3,7 @@ package com.example.demo.web.author
 import com.example.demo.domain.author.JpaAuthorService
 import com.example.demo.jpa.Author
 import com.example.demo.logging.AppLogger
+import com.example.demo.util.fp.pipe
 import com.example.demo.web.common.Pagination
 import io.swagger.annotations.ApiModel
 import org.hibernate.validator.constraints.Email
@@ -22,62 +23,52 @@ class AuthorController(
 ) {
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun create(
-            @Validated
-            @RequestBody request: CreateRequest
-    ): Any? {
-        val now = Instant.now()
-        val entity = Author(
+    fun create(@RequestBody @Validated request: CreateRequest): Any? {
+        val author = Author(
                 id = UUID.randomUUID(),
-                createdAt = now,
-                modifiedAt = now,
+                createdAt = Instant.EPOCH,
+                modifiedAt = Instant.EPOCH,
                 email = request.email,
                 firstName = request.firstName,
                 lastName = request.lastName
-        )
-        val savedEntity = jpaAuthorService.save(entity)
+        ) pipe {
+            jpaAuthorService.save(it)
+        }
 
-        return savedEntity
+        return author
     }
 
     @PostMapping("/authors/{authorId}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun update(
             @PathVariable authorId: UUID,
-
-            @Validated
-            @RequestBody request: UpdateRequest
+            @RequestBody @Validated request: UpdateRequest
     ): Any? {
         LOG.info("update() authorId=$authorId payload=$request")
-        val oldEntity: Author = jpaAuthorService
+        val sourceAuthor: Author = jpaAuthorService
                 .getById(authorId)
 
-        val modifiedEntity = oldEntity.copy(
-                email = request.email,
-                firstName = request.firstName,
-                lastName = request.lastName
-                //, modifiedAt = Instant.now()
-        )
+        val sinkAuthor: Author =
+                sourceAuthor.copy(
+                        email = request.email,
+                        firstName = request.firstName,
+                        lastName = request.lastName
+                ) pipe {
+                    val isChanged = it != sourceAuthor
+                    if (isChanged) {
+                        jpaAuthorService.save(it)
+                    } else {
+                        it
+                    }
+                }
 
-        val finalEntity = if (modifiedEntity != oldEntity) {
-            val savedEntity = jpaAuthorService.save(modifiedEntity)
-            LOG.info("update() DONE. authorId=$authorId savedEntity=$savedEntity")
-
-            savedEntity
-        } else {
-            oldEntity
-        }
-
-        return finalEntity
+        return sinkAuthor
     }
 
     @GetMapping("/authors/{authorId}")
-    fun getOne(
-            @PathVariable authorId: UUID
-    ): Any? {
-        val entity: Author = jpaAuthorService
-                .getById(authorId)
+    fun getOne(@PathVariable authorId: UUID): Any? {
+        val author: Author = jpaAuthorService.getById(authorId)
 
-        return entity
+        return author
     }
 
     @GetMapping("/authors")
@@ -105,7 +96,6 @@ class AuthorController(
             val authors: List<Author>,
             val pagination: Pagination
     )
-
 
     @ApiModel(value = "Author.CreateRequest")
     data class CreateRequest(

@@ -19,32 +19,28 @@ class TweetController(
 ) {
 
     @PostMapping("/tweets", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun create(
-            @Validated @RequestBody request: CreateRequest
-    ): Any? {
+    fun create(@Validated @RequestBody request: CreateRequest): Any? {
         val author: Author = jpaAuthorService.getById(authorId = request.authorId)
 
-        val now = Instant.now()
         val tweet = Tweet(
                 id = UUID.randomUUID(),
-                createdAt = now,
-                modifiedAt = now,
+                createdAt = Instant.EPOCH,
+                modifiedAt = Instant.EPOCH,
                 author = author,
                 message = request.message
-        )
-        val savedEntity = jpaTweetService.save(tweet)
+        ) pipe {
+            jpaTweetService.save(it)
+        }
 
-        return savedEntity
+        return tweet
     }
 
     @GetMapping("/tweets/{tweetId}")
-    fun getOne(
-            @PathVariable tweetId: UUID
-    ): Any? {
-        val entity: Tweet = jpaTweetService
+    fun getOne(@PathVariable tweetId: UUID): Any? {
+        val tweet: Tweet = jpaTweetService
                 .getById(tweetId)
 
-        return entity
+        return tweet
     }
 
     @PostMapping("/tweets/{tweetId}")
@@ -54,15 +50,14 @@ class TweetController(
     ): Any? {
         val sourceTweet: Tweet = jpaTweetService.getById(tweetId = tweetId)
 
-        val sinkTweet: Tweet = sourceTweet
-                .pipe {
-                    if (request.authorId != null) {
-                        val author: Author = jpaAuthorService.getById(authorId = request.authorId)
-                        it.copy(author = author)
-                    } else {
-                        it
-                    }
-                } pipe {
+        val sinkTweet: Tweet = sourceTweet.pipe {
+            if (request.authorId != null) {
+                val author: Author = jpaAuthorService.getById(authorId = request.authorId)
+                it.copy(author = author)
+            } else {
+                it
+            }
+        }.pipe {
             if (request.message != null) {
                 it.copy(message = request.message)
             } else {
