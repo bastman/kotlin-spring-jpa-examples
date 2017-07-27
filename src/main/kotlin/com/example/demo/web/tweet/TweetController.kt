@@ -37,8 +37,7 @@ class TweetController(
 
     @GetMapping("/tweets/{tweetId}")
     fun getOne(@PathVariable tweetId: UUID): Any? {
-        val tweet: Tweet = jpaTweetService
-                .getById(tweetId)
+        val tweet: Tweet = jpaTweetService.getById(tweetId)
 
         return tweet
     }
@@ -66,7 +65,7 @@ class TweetController(
         } pipe {
             val isModified = it != sourceTweet
             if (isModified) {
-                jpaTweetService.save(it.copy(modifiedAt = Instant.now()))
+                jpaTweetService.save(it)
             } else {
                 it
             }
