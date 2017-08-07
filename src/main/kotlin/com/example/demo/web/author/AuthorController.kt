@@ -2,9 +2,11 @@ package com.example.demo.web.author
 
 import com.example.demo.domain.author.JpaAuthorService
 import com.example.demo.jpa.Author
+import com.example.demo.jpa.QAuthor
 import com.example.demo.logging.AppLogger
 import com.example.demo.util.fp.pipe
 import com.example.demo.web.common.Pagination
+import com.querydsl.jpa.impl.JPAQuery
 import io.swagger.annotations.ApiModel
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
@@ -15,12 +17,38 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.*
+import javax.persistence.EntityManager
 import javax.validation.constraints.Size
+
 
 @RestController
 class AuthorController(
-        private val jpaAuthorService: JpaAuthorService
+        private val jpaAuthorService: JpaAuthorService,
+        private val entityManager: EntityManager
 ) {
+
+    @GetMapping("/authors/querydsl/jpa")
+    fun jpaQuerydslExample(): Any? {
+        val offset: Long = 0
+        val limit: Long = 100
+        val query = JPAQuery<Void>(entityManager)
+        val author = QAuthor.author
+
+        val p = author.firstName.like("%a%")
+
+        val resultSet = query.from(author)
+                .where(
+                        p
+                        //author.firstName.like("%a%")
+                        //author.firstName.containsIgnoreCase("a")
+                )
+                .offset(offset)
+                .limit(limit)
+                .fetchResults()
+
+        return resultSet
+    }
+
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun create(@RequestBody @Validated request: CreateRequest): Any? {
