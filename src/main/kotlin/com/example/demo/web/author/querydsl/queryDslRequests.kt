@@ -21,7 +21,9 @@ enum class SortableField(
     AUTHOR_FIRST_NAME_ASC("author.firstName-ASC", QAuthor.author.firstName.asc()),
     AUTHOR_FIRST_NAME_DESC("author.firstName-DESC", QAuthor.author.firstName.desc()),
     AUTHOR_LAST_NAME_ASC("author.lastName-ASC", QAuthor.author.lastName.asc()),
-    AUTHOR_LAST_NAME_DESC("author.lastName-DESC", QAuthor.author.lastName.desc())
+    AUTHOR_LAST_NAME_DESC("author.lastName-DESC", QAuthor.author.lastName.desc()),
+    AUTHOR_EMAIL_ASC("author.email-ASC", QAuthor.author.email.asc()),
+    AUTHOR_EMAIL_DESC("author.email-DESC", QAuthor.author.email.desc())
     ;
 
     @JsonValue
