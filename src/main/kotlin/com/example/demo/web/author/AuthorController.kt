@@ -5,6 +5,9 @@ import com.example.demo.jpa.Author
 import com.example.demo.jpa.QAuthor
 import com.example.demo.logging.AppLogger
 import com.example.demo.util.fp.pipe
+
+import com.example.demo.web.author.querydsl.QueryDslRequest
+import com.example.demo.web.author.querydsl.SortableField
 import com.example.demo.web.common.Pagination
 import com.querydsl.jpa.impl.JPAQuery
 import io.swagger.annotations.ApiModel
@@ -27,14 +30,18 @@ class AuthorController(
         private val entityManager: EntityManager
 ) {
 
-    @GetMapping("/authors/querydsl/jpa")
-    fun jpaQuerydslExample(): Any? {
+
+
+    @PostMapping("/authors/querydsl/jpa")
+    fun jpaQuerydslExample(
+            @RequestBody req:QueryDslRequest
+    ): Any? {
         val offset: Long = 0
         val limit: Long = 100
         val query = JPAQuery<Void>(entityManager)
         val author = QAuthor.author
 
-        val p = author.firstName.like("%a%")
+        val p = author.firstName.like("%%")
 
         val resultSet = query.from(author)
                 .where(
@@ -42,6 +49,14 @@ class AuthorController(
                         //author.firstName.like("%a%")
                         //author.firstName.containsIgnoreCase("a")
                 )
+                .pipe {
+                    val expressions=req.orderBy.map { field->field.queryDsl }.toTypedArray()
+                    if(expressions.isEmpty()){
+                        it
+                    } else {
+                        it.orderBy(*expressions)
+                    }
+                }
                 .offset(offset)
                 .limit(limit)
                 .fetchResults()
