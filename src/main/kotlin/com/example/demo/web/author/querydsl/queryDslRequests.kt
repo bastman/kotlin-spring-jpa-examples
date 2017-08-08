@@ -11,9 +11,11 @@ import com.querydsl.core.types.dsl.BooleanExpression
 
 data class FieldAndValue(val field: FilterField, val value: String)
 data class QueryDslRequest(
+        val offset:Long? = 0,
+        val limit:Long?=100,
         val filter: List<FieldAndValue>? = null,
         val search: List<FieldAndValue>? = null,
-        val orderBy: List<SortableField>
+        val orderBy: List<SortableField>? = null
 )
 
 enum class SortableField(

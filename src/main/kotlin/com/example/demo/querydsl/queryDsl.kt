@@ -1,10 +1,13 @@
 package com.example.demo.querydsl
 
+import com.querydsl.core.support.QueryBase
 import com.querydsl.core.types.ExpressionUtils
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.DateTimePath
 import com.querydsl.core.types.dsl.NumberPath
+import com.querydsl.jpa.impl.JPAQuery
 import java.time.Instant
 
 fun BooleanExpression.andAllOf(predicates: List<Predicate>): BooleanExpression {
@@ -24,6 +27,13 @@ fun BooleanExpression.orAnyOf(predicates: List<Predicate>): BooleanExpression {
     return this.or(ExpressionUtils.anyOf(*t))
 }
 
+fun JPAQuery<Void>.orderBy(orderSpecifier: List<OrderSpecifier<*>>):JPAQuery<Void> {
+    if(orderSpecifier.isEmpty()) {
+        return this
+    }
+    val t=orderSpecifier.toTypedArray()
+    return this.orderBy(*t)
+}
 
 fun DateTimePath<Instant>.eq(value:String):BooleanExpression= this.eq(Instant.parse(value))
 fun DateTimePath<Instant>.gt(value:String):BooleanExpression= this.gt(Instant.parse(value))

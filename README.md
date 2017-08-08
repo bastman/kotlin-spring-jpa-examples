@@ -31,8 +31,10 @@ playground for kotlin, spring boot and jpa
 
 ## jetbrains gradle plugin:
 
-https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/Module.md
+- https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/Module.md
 
 ## querydsl: 
 
-https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
+- https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
+
+- example implementation: AuthorController.jpaQuerydslExample()

@@ -6,6 +6,7 @@ import com.example.demo.jpa.QAuthor
 import com.example.demo.logging.AppLogger
 import com.example.demo.querydsl.andAllOf
 import com.example.demo.querydsl.andAnyOf
+import com.example.demo.querydsl.orderBy
 import com.example.demo.util.fp.pipe
 import com.example.demo.web.author.querydsl.QueryDslRequest
 import com.example.demo.web.author.querydsl.toQueryDsl
@@ -35,10 +36,8 @@ class AuthorController(
     fun jpaQuerydslExample(
             @RequestBody req: QueryDslRequest
     ): Any? {
-        val offset: Long = 0
-        val limit: Long = 100
-        val query = JPAQuery<Void>(entityManager)
-        val author = QAuthor.author
+        val offset:Long = req.offset?:0
+        val limit: Long = req.limit?:100
 
         val filters = req.filter?.map {
             it.field.toQueryDsl(it.value)
@@ -48,21 +47,17 @@ class AuthorController(
             it.field.toQueryDsl(it.value)
         } ?: emptyList()
 
+        val order = req.orderBy?.map { it.toQueryDsl() } ?: emptyList()
+
+        val query = JPAQuery<Void>(entityManager)
+        val author = QAuthor.author
+
         val resultSet = query.from(author)
                 .where(
                         author.isNotNull
                                 .andAllOf(filters)
                                 .andAnyOf(search)
-                )
-
-                .pipe {
-                    val expressions = req.orderBy.map { field -> field.toQueryDsl() }.toTypedArray()
-                    if (expressions.isEmpty()) {
-                        it
-                    } else {
-                        it.orderBy(*expressions)
-                    }
-                }
+                ).orderBy(order)
                 .offset(offset)
                 .limit(limit)
                 .fetchResults()
