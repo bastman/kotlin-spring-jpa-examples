@@ -52,8 +52,11 @@ class AuthorController(
                 FilterField.author_firstName_like -> author.firstName.like(value)
                 FilterField.author_lastName_eq -> author.lastName.eq(value)
                 FilterField.author_lastName_like -> author.lastName.like(value)
+                FilterField.author_email_eq -> author.email.eq(value)
+                FilterField.author_email_like -> author.email.like(value)
                 else->throw RuntimeException("BadRequest! FILTER field=$field")
             }
+
         }?: emptyList()
 
         val search = req.search?.map {
@@ -64,6 +67,8 @@ class AuthorController(
                 FilterField.author_firstName_like -> author.firstName.like(value)
                 FilterField.author_lastName_eq -> author.lastName.eq(value)
                 FilterField.author_lastName_like -> author.lastName.like(value)
+                FilterField.author_email_eq -> author.email.eq(value)
+                FilterField.author_email_like -> author.email.like(value)
                 else->throw RuntimeException("BadRequest! SEARCH field=$field")
             }
         }?: emptyList()

@@ -57,6 +57,7 @@ enum class FilterField(
     author_lastName_like("author.lastName-like"),
     author_email_eq("author.email-eq"),
     author_email_like("author.email-like"),
+    author_version_eq("author.version-eq"),
     //,
     //authorLastName_eqAll("author.lastName-eqAll")
     ;
