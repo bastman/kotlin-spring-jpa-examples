@@ -7,12 +7,9 @@ import com.example.demo.logging.AppLogger
 import com.example.demo.querydsl.andAllOf
 import com.example.demo.querydsl.andAnyOf
 import com.example.demo.util.fp.pipe
-import com.example.demo.web.author.querydsl.*
-
+import com.example.demo.web.author.querydsl.QueryDslRequest
+import com.example.demo.web.author.querydsl.toQueryDsl
 import com.example.demo.web.common.Pagination
-import com.querydsl.core.types.ExpressionUtils
-import com.querydsl.core.types.Predicate
-import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQuery
 import io.swagger.annotations.ApiModel
 import org.hibernate.validator.constraints.Email
@@ -34,10 +31,9 @@ class AuthorController(
         private val entityManager: EntityManager
 ) {
 
-
     @PostMapping("/authors/querydsl/jpa")
     fun jpaQuerydslExample(
-            @RequestBody req:QueryDslRequest
+            @RequestBody req: QueryDslRequest
     ): Any? {
         val offset: Long = 0
         val limit: Long = 100
@@ -45,49 +41,23 @@ class AuthorController(
         val author = QAuthor.author
 
         val filters = req.filter?.map {
-            val field=it.field
-            val value = it.value
-            when(field) {
-                FilterField.author_firstName_eq -> author.firstName.eq(value)
-                FilterField.author_firstName_like -> author.firstName.like(value)
-                FilterField.author_lastName_eq -> author.lastName.eq(value)
-                FilterField.author_lastName_like -> author.lastName.like(value)
-                FilterField.author_email_eq -> author.email.eq(value)
-                FilterField.author_email_like -> author.email.like(value)
-                else->throw RuntimeException("BadRequest! FILTER field=$field")
-            }
-
-        }?: emptyList()
+            it.field.toQueryDsl(it.value)
+        } ?: emptyList()
 
         val search = req.search?.map {
-            val field=it.field
-            val value = it.value
-            when(field) {
-                FilterField.author_firstName_eq -> author.firstName.eq(value)
-                FilterField.author_firstName_like -> author.firstName.like(value)
-                FilterField.author_lastName_eq -> author.lastName.eq(value)
-                FilterField.author_lastName_like -> author.lastName.like(value)
-                FilterField.author_email_eq -> author.email.eq(value)
-                FilterField.author_email_like -> author.email.like(value)
-                else->throw RuntimeException("BadRequest! SEARCH field=$field")
-            }
-        }?: emptyList()
-
-
-
-        val p = author.firstName.like("%%")
+            it.field.toQueryDsl(it.value)
+        } ?: emptyList()
 
         val resultSet = query.from(author)
                 .where(
-
                         author.isNotNull
                                 .andAllOf(filters)
                                 .andAnyOf(search)
                 )
 
                 .pipe {
-                    val expressions=req.orderBy.map { field->field.toQueryDsl() }.toTypedArray()
-                    if(expressions.isEmpty()){
+                    val expressions = req.orderBy.map { field -> field.toQueryDsl() }.toTypedArray()
+                    if (expressions.isEmpty()) {
                         it
                     } else {
                         it.orderBy(*expressions)

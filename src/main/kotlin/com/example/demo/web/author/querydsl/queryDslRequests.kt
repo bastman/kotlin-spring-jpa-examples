@@ -1,11 +1,12 @@
 package com.example.demo.web.author.querydsl
 
 import com.example.demo.jpa.QAuthor
+import com.example.demo.querydsl.eq
+import com.example.demo.querydsl.gt
+import com.example.demo.querydsl.lt
 import com.fasterxml.jackson.annotation.JsonValue
-import com.querydsl.core.types.CollectionExpression
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
-import com.querydsl.core.types.dsl.StringPath
 
 
 data class FieldAndValue(val field: FilterField, val value: String)
@@ -58,20 +59,11 @@ enum class FilterField(
     author_email_eq("author.email-eq"),
     author_email_like("author.email-like"),
     author_version_eq("author.version-eq"),
-    //,
-    //authorLastName_eqAll("author.lastName-eqAll")
+    author_version_gt("author.version-gt"),
+    author_version_lt("author.version-lt"),
+    author_modifiedAt_gt("author.modifiedAt-gt"),
+    author_modifiedAt_lt("author.modifiedAt-lt")
     ;
-
-    /*
-
-    "firstName-eq" -> author.firstName.eq(value)
-                "firstName-like" -> author.firstName.like(value)
-                "lastName-eq" -> author.lastName.eq(value)
-                "lastName-like" -> author.lastName.like(value)
-                "email-eq" -> author.email.eq(value)
-                "email-like" -> author.email.like(value)
-
-     */
 
     override fun toString(): String {
         return qname
@@ -79,48 +71,22 @@ enum class FilterField(
 
 }
 
-/*
-fun FilterField.like(source:BooleanExpression):BooleanExpression {
-    source.orAllOf()
-}
-*/
+fun FilterField.toQueryDsl(value: String): BooleanExpression {
 
-/*
-fun FilterField.toQueryDsl(value:String):BooleanExpression {
-    val x:List<String> = listOf()
-    //ExpressionUtils.all<T>(right)
-    return when(this) {
-        FilterField.authorFirstName_eqAll -> QAuthor.author.firstName.`in`()
-        else -> throw RuntimeException("QDSL UNSUPPORTED SYNTAX!")
+    val field = this
+    val author = QAuthor.author
+    return when (field) {
+        FilterField.author_firstName_eq -> author.firstName.eq(value)
+        FilterField.author_firstName_like -> author.firstName.like(value)
+        FilterField.author_lastName_eq -> author.lastName.eq(value)
+        FilterField.author_lastName_like -> author.lastName.like(value)
+        FilterField.author_email_eq -> author.email.eq(value)
+        FilterField.author_email_like -> author.email.like(value)
+        FilterField.author_version_eq -> author.version.eq(value)
+        FilterField.author_version_gt -> author.version.gt(value)
+        FilterField.author_modifiedAt_gt -> author.modifiedAt.gt(value)
+        FilterField.author_modifiedAt_lt -> author.modifiedAt.lt(value)
+
+        else -> throw RuntimeException("BadRequest! FILTER field=$field")
     }
 }
-*/
-
-
-/*
-fun StringPath.eqAll(source: BooleanExpression, value: List<String>): BooleanExpression {
-    if (value.isEmpty()) {
-        return source
-    }
-    var sink: BooleanExpression = source
-    value.forEach {
-        val str = it
-        sink = sink.and(this.eq(str))
-    }
-
-
-    return sink
-}
-
-fun StringPath.eqAny(source: BooleanExpression, value: List<String>): BooleanExpression {
-    if (value.isEmpty()) {
-        return source
-    }
-    var sink: BooleanExpression = source
-    value.forEach {
-        val str = it
-        sink = sink.or(this.eq(str))
-    }
-    return sink
-}
-Ü*/
