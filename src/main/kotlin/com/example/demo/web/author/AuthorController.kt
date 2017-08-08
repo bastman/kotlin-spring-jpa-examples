@@ -9,7 +9,6 @@ import com.example.demo.querydsl.andAnyOf
 import com.example.demo.querydsl.orderBy
 import com.example.demo.util.fp.pipe
 import com.example.demo.web.author.querydsl.QueryDslRequest
-import com.example.demo.web.author.querydsl.toQueryDsl
 import com.example.demo.web.common.Pagination
 import com.querydsl.jpa.impl.JPAQuery
 import io.swagger.annotations.ApiModel
@@ -25,7 +24,6 @@ import java.util.*
 import javax.persistence.EntityManager
 import javax.validation.constraints.Size
 
-
 @RestController
 class AuthorController(
         private val jpaAuthorService: JpaAuthorService,
@@ -36,18 +34,20 @@ class AuthorController(
     fun jpaQuerydslExample(
             @RequestBody req: QueryDslRequest
     ): Any? {
-        val offset:Long = req.offset?:0
-        val limit: Long = req.limit?:100
+        val offset: Long = req.offset ?: 0
+        val limit: Long = req.limit ?: 100
 
         val filters = req.filter?.map {
-            it.field.toQueryDsl(it.value)
+            it.field.toBooleanExpression(it.value)
         } ?: emptyList()
 
         val search = req.search?.map {
-            it.field.toQueryDsl(it.value)
+            it.field.toBooleanExpression(it.value)
         } ?: emptyList()
 
-        val order = req.orderBy?.map { it.toQueryDsl() } ?: emptyList()
+        val order = req.orderBy?.map {
+            it.toOrderSpecifier()
+        } ?: emptyList()
 
         val query = JPAQuery<Void>(entityManager)
         val author = QAuthor.author
