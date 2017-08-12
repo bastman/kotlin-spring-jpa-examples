@@ -1,8 +1,8 @@
 package com.example.demo.api.tweeter
 
+import com.example.demo.api.tweeter.domain.Author
 import com.example.demo.api.tweeter.domain.JpaAuthorService
 import com.example.demo.api.tweeter.domain.JpaTweetService
-import com.example.demo.api.tweeter.domain.Author
 import com.example.demo.api.tweeter.domain.Tweet
 import com.example.demo.util.fp.pipe
 import io.swagger.annotations.ApiModel

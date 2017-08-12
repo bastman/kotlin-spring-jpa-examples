@@ -15,16 +15,16 @@ class CreatePropertyHandler(
         private val jpaPropertyService: JpaPropertyService
 ) {
 
-    fun handle(request:CreatePropertyRequest):Any? {
+    fun handle(request: CreatePropertyRequest): Any? {
         return execute(
                 request.validateBean(validator, "request")
         )
     }
 
-    private fun execute(request:CreatePropertyRequest):Any? {
+    private fun execute(request: CreatePropertyRequest): Any? {
         val newPropertyId = UUID.randomUUID()
         val property = Property(
-                id=newPropertyId,
+                id = newPropertyId,
                 created = Instant.now(),
                 modified = Instant.now(),
                 type = request.type,

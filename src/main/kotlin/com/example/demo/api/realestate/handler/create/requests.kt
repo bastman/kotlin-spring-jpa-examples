@@ -6,20 +6,20 @@ import org.hibernate.validator.constraints.NotBlank
 import javax.validation.Valid
 
 data class CreatePropertyRequest(
-        val type:PropertyType,
-        @get: [NotBlank] val name:String,
+        val type: PropertyType,
+        @get: [NotBlank] val name: String,
         @get: [Valid] val address: PropertyAddress
 
 ) {
     @ApiModel("CreatePropertyRequest.PropertyAddress")
     data class PropertyAddress(
-            val country:String,
-            val city:String,
-            val zip:String,
-            val street:String,
-            val number:String,
-            val district:String,
-            val neighborhood:String
+            val country: String,
+            val city: String,
+            val zip: String,
+            val street: String,
+            val number: String,
+            val district: String,
+            val neighborhood: String
     )
 }
 

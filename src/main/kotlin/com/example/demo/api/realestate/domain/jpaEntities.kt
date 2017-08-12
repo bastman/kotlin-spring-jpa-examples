@@ -40,25 +40,25 @@ data class Property(
         @get:[NotNull Valid]
         var address: PropertyAddress
 ) {
-        fun getCreatedAt(): Instant = created
-        fun getModifiedAt(): Instant = modified
+    fun getCreatedAt(): Instant = created
+    fun getModifiedAt(): Instant = modified
 
-        @PreUpdate @Validated
-        private fun beforeUpdate() {
-                this.modified = Instant.now()
-                LOG.info("beforeUpdate $this")
-        }
+    @PreUpdate @Validated
+    private fun beforeUpdate() {
+        this.modified = Instant.now()
+        LOG.info("beforeUpdate $this")
+    }
 
-        @PrePersist @Validated
-        private fun beforeInsert() {
-                created = Instant.now()
-                modified = Instant.now()
-                LOG.info("beforeInsert $this")
-        }
+    @PrePersist @Validated
+    private fun beforeInsert() {
+        created = Instant.now()
+        modified = Instant.now()
+        LOG.info("beforeInsert $this")
+    }
 
-        companion object {
-                private val LOG = AppLogger(this::class)
-        }
+    companion object {
+        private val LOG = AppLogger(this::class)
+    }
 }
 
 enum class PropertyType {

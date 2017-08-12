@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 class JacksonConfig {
 
     @Bean
-    fun om():ObjectMapper {
+    fun om(): ObjectMapper {
         return jacksonObjectMapper()
                 .findAndRegisterModules()
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
