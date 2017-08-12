@@ -13,8 +13,8 @@ data class CreatePropertyRequest(
 ) {
     @ApiModel("CreatePropertyRequest.PropertyAddress")
     data class PropertyAddress(
-            val country: String,
-            val city: String,
+            @get: [NotBlank] val country: String,
+            @get: [NotBlank] val city: String,
             val zip: String,
             val street: String,
             val number: String,
