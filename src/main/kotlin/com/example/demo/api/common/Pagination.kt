@@ -1,4 +1,4 @@
-package com.example.demo.web.common
+package com.example.demo.api.common
 
 import org.springframework.data.domain.Page
 

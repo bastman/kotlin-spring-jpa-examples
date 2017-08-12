@@ -1,5 +1,6 @@
-package com.example.demo.jpa
+package com.example.demo.api.tweeter.domain
 
+import com.example.demo.jpa.JpaTypes
 import com.example.demo.logging.AppLogger
 import org.hibernate.annotations.Type
 import org.hibernate.validator.constraints.Email

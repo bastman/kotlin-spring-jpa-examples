@@ -1,4 +1,4 @@
-package com.example.demo.web.author.querydsl
+package com.example.demo.api.tweeter.handler.author.search
 
 import com.example.demo.jpa.QAuthor
 import com.example.demo.querydsl.eq

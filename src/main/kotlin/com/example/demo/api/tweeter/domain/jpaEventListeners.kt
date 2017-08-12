@@ -1,4 +1,4 @@
-package com.example.demo.jpa
+package com.example.demo.api.tweeter.domain
 
 import com.example.demo.logging.AppLogger
 import javax.persistence.PrePersist
