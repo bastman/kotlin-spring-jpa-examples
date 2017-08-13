@@ -11,3 +11,6 @@ class BadRequestException(message: String) : RuntimeException(message)
 
 @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
 class EntityAlreadyExistException(message: String) : RuntimeException(message)
+
+@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+class DomainException(message: String) : RuntimeException(message)

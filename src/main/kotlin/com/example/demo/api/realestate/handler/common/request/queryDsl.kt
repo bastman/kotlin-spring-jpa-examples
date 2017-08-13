@@ -15,44 +15,44 @@ object QueryDslOperation {
 }
 
 object QueryDslRequestParser {
-    fun asInstant(fieldValue:String, fieldExpression: String): Instant {
+    fun asInstant(fieldValue: String, fieldExpression: String): Instant {
         return try {
             Instant.parse(fieldValue)
         } catch (all: Exception) {
             throw BadRequestException(
                     "Failed to parse field.value"
                             + " provided by field.expression=$fieldExpression"
-                            +" as Instant!"
-                            +" reason=${all.message} !"
-                            +" example=$INSTANT_EXAMPLE"
+                            + " as Instant!"
+                            + " reason=${all.message} !"
+                            + " example=$INSTANT_EXAMPLE"
             )
         }
     }
 
-    fun asUUID(fieldValue:String, fieldExpression: String):UUID {
+    fun asUUID(fieldValue: String, fieldExpression: String): UUID {
         return try {
             UUID.fromString(fieldValue)
         } catch (all: Exception) {
             throw BadRequestException(
                     "Failed to parse field.value"
                             + " provided by field.expression=$fieldExpression"
-                            +" as UUID!"
-                            +" reason=${all.message} !"
-                            +" example=$UUID_EXAMPLE"
+                            + " as UUID!"
+                            + " reason=${all.message} !"
+                            + " example=$UUID_EXAMPLE"
             )
         }
     }
 
-    fun asPropertyType(fieldValue:String, fieldExpression: String):PropertyType {
+    fun asPropertyType(fieldValue: String, fieldExpression: String): PropertyType {
         return try {
             PropertyType.valueOf(fieldValue)
         } catch (all: Exception) {
             throw BadRequestException(
                     "Failed to parse field.value"
                             + " provided by field.expression=$fieldExpression"
-                            +" as PropertyType!"
-                            +" reason=${all.message} !"
-                            +" examples=$PROPERTY_TYPES_ALLOWED"
+                            + " as PropertyType!"
+                            + " reason=${all.message} !"
+                            + " examples=$PROPERTY_TYPES_ALLOWED"
             )
         }
     }

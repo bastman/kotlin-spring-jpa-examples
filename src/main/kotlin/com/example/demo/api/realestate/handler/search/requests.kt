@@ -173,11 +173,13 @@ private fun String.toInstant(field: FilterField): Instant {
             fieldValue = this, fieldExpression = field.fieldExpression
     )
 }
+
 private fun String.toUUID(field: FilterField): UUID {
     return QueryDslRequestParser.asUUID(
             fieldValue = this, fieldExpression = field.fieldExpression
     )
 }
+
 private fun String.toPropertyType(field: FilterField): PropertyType {
     return QueryDslRequestParser.asPropertyType(
             fieldValue = this, fieldExpression = field.fieldExpression

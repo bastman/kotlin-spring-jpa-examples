@@ -9,3 +9,8 @@ interface PropertyRepository : JpaRepository<Property, UUID> {
     fun getById(id: UUID): Optional<Property>
 }
 
+@Repository
+interface PropertyLinksRepository : JpaRepository<PropertyLink, UUID> {
+    fun getById(id: UUID): Optional<PropertyLink>
+    fun getByFromPropertyIdAndToPropertyId(fromPropertyId: UUID, toPropertyId: UUID): Optional<PropertyLink>
+}
