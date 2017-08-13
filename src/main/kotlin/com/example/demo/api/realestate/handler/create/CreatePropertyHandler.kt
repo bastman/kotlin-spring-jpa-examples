@@ -1,6 +1,6 @@
 package com.example.demo.api.realestate.handler.create
 
-import com.example.demo.api.common.validation.validateBean
+import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.JpaPropertyService
 import com.example.demo.api.realestate.domain.Property
 import com.example.demo.api.realestate.domain.PropertyAddress
@@ -17,7 +17,7 @@ class CreatePropertyHandler(
 
     fun handle(request: CreatePropertyRequest): Any? {
         return execute(
-                request.validateBean(validator, "request")
+                validator.validateRequest(request, "request")
         )
     }
 

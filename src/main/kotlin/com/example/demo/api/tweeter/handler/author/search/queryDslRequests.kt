@@ -1,6 +1,7 @@
 package com.example.demo.api.tweeter.handler.author.search
 
-import com.example.demo.jpa.QAuthor
+
+import com.example.demo.api.tweeter.domain.QAuthor
 import com.example.demo.querydsl.eq
 import com.example.demo.querydsl.gt
 import com.example.demo.querydsl.lt

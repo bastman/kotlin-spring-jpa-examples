@@ -8,11 +8,11 @@ import javax.validation.Valid
 data class UpdatePropertyRequest(
         val type: PropertyType?,
         @get: [NotBlankOrNull] val name: String?,
-        @get: [Valid] val address: PropertyAddress?
+        @get: [Valid] val address: UpdatePropertyAddressRequest?
 
 ) {
     @ApiModel("UpdatePropertyRequest.PropertyAddress")
-    data class PropertyAddress(
+    data class UpdatePropertyAddressRequest(
             @get: [NotBlankOrNull] val country: String?,
             @get: [NotBlankOrNull] val city: String?,
             val zip: String?,
@@ -22,3 +22,4 @@ data class UpdatePropertyRequest(
             val neighborhood: String?
     )
 }
+

@@ -4,20 +4,21 @@ import com.example.demo.api.common.BadRequestException
 import org.springframework.validation.DataBinder
 import org.springframework.validation.Validator
 
-fun <T : Any> T?.notNull(field: String): T {
-    return this ?: throw BadRequestException("field=$field must be not null")
+fun <T : Any> notNull(value: T?, field: String): T {
+    return value ?: throw BadRequestException("field=$field must be not null")
 }
 
-fun String.notBlank(requestPropertyName: String): String {
-    if (this.isBlank()) {
-        throw BadRequestException("$requestPropertyName must not be blank!")
-    }
-
-    return this
+fun notBlank(value: String, field: String): String {
+    return if (value.isBlank()) {
+        throw BadRequestException("$field must not be blank!")
+    } else value
 }
 
-fun <T : Any> T.validateBean(validator: Validator, beanName: String?): T {
-    val value = this
+fun <T : Any> Validator.validateRequest(value: T, beanName: String?): T {
+    return validateBean(validator = this, value = value, beanName = beanName)
+}
+
+fun <T : Any> validateBean(validator: Validator, value: T, beanName: String?): T {
     val binder = if (beanName == null) {
         DataBinder(value)
     } else {
@@ -38,7 +39,7 @@ fun <T : Any> T.validateBean(validator: Validator, beanName: String?): T {
         )
     }
 
-    val classname: String = this::class.qualifiedName ?: this::class.toString()
+    val classname: String = value::class.qualifiedName ?: value::class.toString()
 
     val msg = "Failed to validate bean=$classname objectName: ${result.objectName} nestedPath: ${result.nestedPath} allErrors:${errors.joinToString("\n")}"
 
