@@ -10,27 +10,30 @@ import com.querydsl.jpa.impl.JPAQuery
 import java.time.Instant
 
 fun BooleanExpression.andAllOf(predicates: List<Predicate>): BooleanExpression {
-    val t=predicates.toTypedArray()
+    val t = predicates.toTypedArray()
     return this.and(ExpressionUtils.allOf(*t))
 }
+
 fun BooleanExpression.orAllOf(predicates: List<Predicate>): BooleanExpression {
-    val t=predicates.toTypedArray()
+    val t = predicates.toTypedArray()
     return this.or(ExpressionUtils.allOf(*t))
 }
+
 fun BooleanExpression.andAnyOf(predicates: List<Predicate>): BooleanExpression {
-    val t=predicates.toTypedArray()
+    val t = predicates.toTypedArray()
     return this.and(ExpressionUtils.anyOf(*t))
 }
+
 fun BooleanExpression.orAnyOf(predicates: List<Predicate>): BooleanExpression {
-    val t=predicates.toTypedArray()
+    val t = predicates.toTypedArray()
     return this.or(ExpressionUtils.anyOf(*t))
 }
 
-fun <T:Any> JPAQuery<T>.orderBy(orderSpecifier: List<OrderSpecifier<*>>):JPAQuery<T> {
-    if(orderSpecifier.isEmpty()) {
+fun <T : Any> JPAQuery<T>.orderBy(orderSpecifier: List<OrderSpecifier<*>>): JPAQuery<T> {
+    if (orderSpecifier.isEmpty()) {
         return this
     }
-    val t=orderSpecifier.toTypedArray()
+    val t = orderSpecifier.toTypedArray()
     return this.orderBy(*t)
 }
 

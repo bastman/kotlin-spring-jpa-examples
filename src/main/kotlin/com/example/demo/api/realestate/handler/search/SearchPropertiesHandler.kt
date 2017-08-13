@@ -2,15 +2,16 @@ package com.example.demo.api.realestate.handler.search
 
 import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.Property
-import com.querydsl.jpa.impl.JPAQuery
-import org.springframework.stereotype.Component
-import javax.persistence.EntityManager
 import com.example.demo.api.realestate.domain.QueryDslEntity.qProperty
 import com.example.demo.api.realestate.handler.common.response.ResponsePaging
 import com.example.demo.querydsl.andAllOf
 import com.example.demo.querydsl.andAnyOf
 import com.example.demo.querydsl.orderBy
+import com.querydsl.jpa.impl.JPAQuery
+import org.springframework.stereotype.Component
 import org.springframework.validation.Validator
+import javax.persistence.EntityManager
+
 @Component
 class SearchPropertiesHandler(
         private val validator: Validator,
@@ -18,7 +19,7 @@ class SearchPropertiesHandler(
 ) {
     fun handle(request: SearchPropertiesRequest): SearchPropertiesResponse {
         return execute(
-                request=validator.validateRequest(request, "request")
+                request = validator.validateRequest(request, "request")
         )
     }
 

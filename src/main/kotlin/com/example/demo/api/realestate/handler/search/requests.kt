@@ -80,18 +80,18 @@ enum class FilterField(
     }
 
     fun toBooleanExpression(values: List<String>): List<BooleanExpression> {
-        return values.map {value -> predicateSupplier(this, value) }.toList()
+        return values.map { value -> predicateSupplier(this, value) }.toList()
     }
 }
 
 
-fun Filters?.toWhereExpressionDsl():List<BooleanExpression> {
+fun Filters?.toWhereExpressionDsl(): List<BooleanExpression> {
     return this?.flatMap {
         it.field.toBooleanExpression(it.values)
-    }?: emptyList()
+    } ?: emptyList()
 }
 
-fun Sorting?.toOrderByExpressionDsl():List<OrderSpecifier<*>> {
+fun Sorting?.toOrderByExpressionDsl(): List<OrderSpecifier<*>> {
     return this?.map {
         it.toOrderSpecifier()
     } ?: emptyList()

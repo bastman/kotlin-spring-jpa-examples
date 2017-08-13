@@ -9,5 +9,5 @@ class GetPropertyByIdHandler(
         private val jpaPropertyService: JpaPropertyService
 ) {
 
-    fun handle(propertyId:UUID) = jpaPropertyService.getById(propertyId)
+    fun handle(propertyId: UUID) = jpaPropertyService.getById(propertyId)
 }

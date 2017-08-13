@@ -37,4 +37,8 @@ playground for kotlin, spring boot and jpa
 
 - https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
 
-- example implementation: AuthorController.jpaQuerydslExample()
+- example implementation: 
+
+        com.example.demo.api.realestate.PropertiesController.search()
+    
+    

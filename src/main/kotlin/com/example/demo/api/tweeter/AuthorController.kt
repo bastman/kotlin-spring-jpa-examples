@@ -3,15 +3,8 @@ package com.example.demo.api.tweeter
 import com.example.demo.api.common.Pagination
 import com.example.demo.api.tweeter.domain.Author
 import com.example.demo.api.tweeter.domain.JpaAuthorService
-import com.example.demo.api.tweeter.domain.QAuthor
-import com.example.demo.api.tweeter.handler.author.search.QueryDslRequest
-
 import com.example.demo.logging.AppLogger
-import com.example.demo.querydsl.andAllOf
-import com.example.demo.querydsl.andAnyOf
-import com.example.demo.querydsl.orderBy
 import com.example.demo.util.fp.pipe
-import com.querydsl.jpa.impl.JPAQuery
 import io.swagger.annotations.ApiModel
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
@@ -30,42 +23,6 @@ class AuthorController(
         private val jpaAuthorService: JpaAuthorService,
         private val entityManager: EntityManager
 ) {
-
-    @PostMapping("/authors/querydsl/jpa")
-    fun jpaQuerydslExample(
-            @RequestBody req: QueryDslRequest
-    ): Any? {
-        val offset: Long = req.offset ?: 0
-        val limit: Long = req.limit ?: 100
-
-        val filters = req.filter?.map {
-            it.field.toBooleanExpression(it.value)
-        } ?: emptyList()
-
-        val search = req.search?.map {
-            it.field.toBooleanExpression(it.value)
-        } ?: emptyList()
-
-        val order = req.orderBy?.map {
-            it.toOrderSpecifier()
-        } ?: emptyList()
-
-        val query = JPAQuery<Void>(entityManager)
-        val author = QAuthor.author
-
-        val resultSet = query.from(author)
-                .where(
-                        author.isNotNull
-                                .andAllOf(filters)
-                                .andAnyOf(search)
-                ).orderBy(order)
-                .offset(offset)
-                .limit(limit)
-                .fetchResults()
-
-        return resultSet
-    }
-
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun create(@RequestBody @Validated request: CreateRequest): Any? {
