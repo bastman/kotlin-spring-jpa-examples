@@ -28,7 +28,7 @@ class UpdatePropertyHandler(
         val property = jpaPropertyService.getById(propertyId)
                 .copyWithUpdateRequest(request)
 
-        return jpaPropertyService.save(property)
+        return jpaPropertyService.update(property)
     }
 
 }

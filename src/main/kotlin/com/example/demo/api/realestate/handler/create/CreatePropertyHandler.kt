@@ -40,6 +40,6 @@ class CreatePropertyHandler(
                 )
         )
 
-        return jpaPropertyService.save(property)
+        return jpaPropertyService.insert(property)
     }
 }

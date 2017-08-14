@@ -1,5 +1,6 @@
 package com.example.demo.api.realestate.domain
 
+import com.example.demo.api.common.EntityAlreadyExistException
 import com.example.demo.api.common.EntityNotFoundException
 import com.example.demo.util.optionals.toNullable
 import org.springframework.stereotype.Component
@@ -10,7 +11,33 @@ import javax.validation.Valid
 class JpaPropertyService(
         private val propertyRepository: PropertyRepository
 ) {
-    fun save(@Valid property: Property): Property {
+    fun exists(propertyId: UUID): Boolean = propertyRepository.exists(propertyId)
+
+    fun requireExists(propertyId: UUID): UUID {
+        return if (exists(propertyId)) {
+            propertyId
+        } else throw EntityNotFoundException(
+                "ENTITY NOT FOUND! query: property.id=$propertyId"
+        )
+    }
+
+    fun requireDoesNotExist(propertyId: UUID): UUID {
+        return if (!exists(propertyId)) {
+            propertyId
+        } else throw EntityAlreadyExistException(
+                "ENTITY ALREADY EXIST! query: property.id=$propertyId"
+        )
+    }
+
+    fun insert(@Valid property: Property): Property {
+        requireDoesNotExist(property.id)
+
+        return propertyRepository.save(property)
+    }
+
+    fun update(@Valid property: Property): Property {
+        requireExists(property.id)
+
         return propertyRepository.save(property)
     }
 
