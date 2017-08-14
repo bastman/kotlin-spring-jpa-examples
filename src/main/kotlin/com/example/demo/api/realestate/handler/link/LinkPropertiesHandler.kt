@@ -22,18 +22,20 @@ class LinkPropertiesHandler(
         val property1 = jpaPropertyService.getById(request.propertyId1)
         val property2 = jpaPropertyService.getById(request.propertyId2)
 
-        val linkP1ToP2 = link(from = property1, to = property2)
-        val linkP2ToP1 = link(from = property2, to = property1)
+        val property1ToProperty2Link = link(from = property1, to = property2)
+        val property2ToProperty1Link = link(from = property2, to = property1)
 
         return LinkPropertiesResponse(
-                links = listOf(linkP1ToP2, linkP2ToP1)
+                links = listOf(property1ToProperty2Link, property2ToProperty1Link)
         )
     }
 
     private fun link(from: Property, to: Property): PropertyLink {
+
         val link = jpaPropertyLinksService.findByFromPropertyIdAndToPropertyId(
                 from.id, to.id
         )
+
         if (link != null) {
             // already linked
             return link
@@ -46,6 +48,6 @@ class LinkPropertiesHandler(
                 fromPropertyId = from.id,
                 toPropertyId = to.id
         )
-        return jpaPropertyLinksService.save(newLink)
+        return jpaPropertyLinksService.insert(newLink)
     }
 }

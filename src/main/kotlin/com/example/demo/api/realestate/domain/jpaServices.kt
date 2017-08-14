@@ -58,7 +58,28 @@ class JpaPropertyService(
 class JpaPropertyLinksService(
         private val propertyLinksRepository: PropertyLinksRepository
 ) {
-    fun save(@Valid link: PropertyLink): PropertyLink {
+
+    fun exists(propertyLinkId: UUID): Boolean = propertyLinksRepository.exists(propertyLinkId)
+
+    fun requireExists(propertyLinkId: UUID): UUID {
+        return if (exists(propertyLinkId)) {
+            propertyLinkId
+        } else throw EntityNotFoundException(
+                "ENTITY NOT FOUND! query: PropertyLink.id=$propertyLinkId"
+        )
+    }
+
+    fun requireDoesNotExist(propertyLinkId: UUID): UUID {
+        return if (!exists(propertyLinkId)) {
+            propertyLinkId
+        } else throw EntityAlreadyExistException(
+                "ENTITY ALREADY EXIST! query: PropertyLink.id=$propertyLinkId"
+        )
+    }
+
+    fun insert(@Valid link: PropertyLink): PropertyLink {
+        requireDoesNotExist(link.id)
+
         return propertyLinksRepository.save(link)
     }
 

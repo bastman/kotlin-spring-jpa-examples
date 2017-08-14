@@ -34,7 +34,7 @@ class ListDuplicatePropertiesHandler(
         val mergedPropertyIdList = (linkedFromPropertyIdList + linkedToPropertyIdList)
                 .distinct()
 
-        val duplicateProperties: List<Property> = findPropertiesByIdList(mergedPropertyIdList)
+        val duplicateProperties: List<Property> = findPropertyIdsByIdList(mergedPropertyIdList)
 
         return ListDuplicatePropertiesResponse(
                 linksTo = linkedToPropertyIdList,
@@ -80,7 +80,7 @@ class ListDuplicatePropertiesHandler(
         return resultSet.results
     }
 
-    private fun findPropertiesByIdList(
+    private fun findPropertyIdsByIdList(
             propertyIdList: List<UUID>
     ): List<Property> {
         val query = JPAQuery<Property>(entityManager)
