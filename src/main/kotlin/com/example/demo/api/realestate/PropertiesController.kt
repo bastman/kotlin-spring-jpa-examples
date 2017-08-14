@@ -2,6 +2,8 @@ package com.example.demo.api.realestate
 
 import com.example.demo.api.realestate.handler.create.CreatePropertyHandler
 import com.example.demo.api.realestate.handler.create.CreatePropertyRequest
+import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesHandler
+import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesResponse
 import com.example.demo.api.realestate.handler.getbyid.GetPropertyByIdHandler
 import com.example.demo.api.realestate.handler.link.LinkPropertiesHandler
 import com.example.demo.api.realestate.handler.link.LinkPropertiesRequest
@@ -25,12 +27,11 @@ class PropertiesController(
         private val getByIdHandler: GetPropertyByIdHandler,
         private val searchHandler: SearchPropertiesHandler,
         private val linkHandler: LinkPropertiesHandler,
-        private val unlinkHandler: UnlinkPropertiesHandler
+        private val unlinkHandler: UnlinkPropertiesHandler,
+        private val listDuplicatesHandler: ListDuplicatePropertiesHandler
 ) {
     @GetMapping("/properties/{propertyId}")
-    fun getById(
-            @PathVariable propertyId: UUID
-    ): Any? {
+    fun getById(@PathVariable propertyId: UUID): Any? {
         return getByIdHandler.handle(propertyId)
     }
 
@@ -60,5 +61,10 @@ class PropertiesController(
     @PostMapping("/properties/unlink", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun unlink(@RequestBody request: UnlinkPropertiesRequest): UnlinkPropertiesResponse {
         return unlinkHandler.handle(request)
+    }
+
+    @GetMapping("/properties/{propertyId}/duplicates")
+    fun listDuplicates(@PathVariable propertyId: UUID): ListDuplicatePropertiesResponse {
+        return listDuplicatesHandler.handle(propertyId)
     }
 }

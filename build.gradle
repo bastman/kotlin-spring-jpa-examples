@@ -92,8 +92,10 @@ dependencies {
     compile "com.querydsl:querydsl-jpa:${queryDslVersion}"
     kapt "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
 
-    //compile "com.mysema.querydsl:querydsl-jpa:3.6.3"
-   // kapt "com.mysema.querydsl:querydsl-apt:3.6.3:jpa" // Magic happens here
+
+    // JSR-330 javax.inject annotations - required by querydsl
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+
 
     // tests
 

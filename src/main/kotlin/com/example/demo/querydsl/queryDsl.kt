@@ -9,6 +9,8 @@ import com.querydsl.core.types.dsl.NumberPath
 import com.querydsl.jpa.impl.JPAQuery
 import java.time.Instant
 
+infix fun BooleanExpression.and(right: Predicate?): BooleanExpression = this.and(right)
+
 fun BooleanExpression.andAllOf(predicates: List<Predicate>): BooleanExpression {
     val t = predicates.toTypedArray()
     return this.and(ExpressionUtils.allOf(*t))

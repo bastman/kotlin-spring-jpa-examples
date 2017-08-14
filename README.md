@@ -36,6 +36,7 @@ playground for kotlin, spring boot and jpa
 ## querydsl: 
 
 - https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
+- https://github.com/eugenp/tutorials/tree/master/querydsl
 
 - example implementation: 
 
