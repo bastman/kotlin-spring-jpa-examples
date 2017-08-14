@@ -15,6 +15,7 @@ import javax.persistence.EntityManager
 @Component
 class ListDuplicatePropertiesHandler(
         private val jpaPropertyService: JpaPropertyService,
+        private val queryFactory: JPAQueryFactory,
         private val entityManager: EntityManager
 ) {
 
@@ -46,7 +47,6 @@ class ListDuplicatePropertiesHandler(
     private fun loadLinksFromProperty(
             propertyId: UUID, offset: Long, limit: Long
     ): List<UUID> {
-        val queryFactory = JPAQueryFactory(entityManager);
         val resultSet: QueryResults<UUID> = queryFactory
                 .select(qPropertyLink.toPropertyId)
                 .from(qPropertyLink)
@@ -65,7 +65,6 @@ class ListDuplicatePropertiesHandler(
     private fun loadLinksToProperty(
             propertyId: UUID, offset: Long, limit: Long
     ): List<UUID> {
-        val queryFactory = JPAQueryFactory(entityManager);
         val resultSet: QueryResults<UUID> = queryFactory
                 .select(qPropertyLink.fromPropertyId)
                 .from(qPropertyLink)

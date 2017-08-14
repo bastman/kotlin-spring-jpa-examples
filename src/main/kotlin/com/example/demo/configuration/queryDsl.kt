@@ -15,6 +15,7 @@ class QuerydslConfig(
 ) {
 
     /*
+
     @Bean
     fun getJPAQueryFactory2():JPAQueryFactory {
         val provider=object : Provider<EntityManager> {
@@ -24,6 +25,7 @@ class QuerydslConfig(
         }
         return JPAQueryFactory(provider)
     }
+    */
 
 
 
@@ -33,5 +35,5 @@ class QuerydslConfig(
             val provider = Provider<EntityManager> { em }
             return JPAQueryFactory(provider)
         }
-*/
+
 }
