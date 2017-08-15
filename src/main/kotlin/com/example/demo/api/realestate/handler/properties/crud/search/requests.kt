@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.search
+package com.example.demo.api.realestate.handler.properties.crud.search
 
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity.qProperty

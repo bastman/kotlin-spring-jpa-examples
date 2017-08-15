@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.getbyid
+package com.example.demo.api.realestate.handler.properties.crud.getbyid
 
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import com.example.demo.api.realestate.handler.common.response.PropertyResponse

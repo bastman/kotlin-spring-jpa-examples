@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.update
+package com.example.demo.api.realestate.handler.properties.crud.update
 
 import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.jpa.entities.Property

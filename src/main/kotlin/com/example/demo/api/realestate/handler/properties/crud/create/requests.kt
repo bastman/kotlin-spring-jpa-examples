@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.create
+package com.example.demo.api.realestate.handler.properties.crud.create
 
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import io.swagger.annotations.ApiModel

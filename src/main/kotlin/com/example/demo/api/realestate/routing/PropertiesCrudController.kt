@@ -1,14 +1,14 @@
-package com.example.demo.api.realestate
+package com.example.demo.api.realestate.routing
 
 import com.example.demo.api.realestate.handler.common.response.PropertyResponse
-import com.example.demo.api.realestate.handler.create.CreatePropertyHandler
-import com.example.demo.api.realestate.handler.create.CreatePropertyRequest
-import com.example.demo.api.realestate.handler.getbyid.GetPropertyByIdHandler
-import com.example.demo.api.realestate.handler.search.SearchPropertiesHandler
-import com.example.demo.api.realestate.handler.search.SearchPropertiesRequest
-import com.example.demo.api.realestate.handler.search.SearchPropertiesResponse
-import com.example.demo.api.realestate.handler.update.UpdatePropertyHandler
-import com.example.demo.api.realestate.handler.update.UpdatePropertyRequest
+import com.example.demo.api.realestate.handler.properties.crud.create.CreatePropertyHandler
+import com.example.demo.api.realestate.handler.properties.crud.create.CreatePropertyRequest
+import com.example.demo.api.realestate.handler.properties.crud.getbyid.GetPropertyByIdHandler
+import com.example.demo.api.realestate.handler.properties.crud.search.SearchPropertiesHandler
+import com.example.demo.api.realestate.handler.properties.crud.search.SearchPropertiesRequest
+import com.example.demo.api.realestate.handler.properties.crud.search.SearchPropertiesResponse
+import com.example.demo.api.realestate.handler.properties.crud.update.UpdatePropertyHandler
+import com.example.demo.api.realestate.handler.properties.crud.update.UpdatePropertyRequest
 import org.springframework.web.bind.annotation.*
 import java.util.*
 

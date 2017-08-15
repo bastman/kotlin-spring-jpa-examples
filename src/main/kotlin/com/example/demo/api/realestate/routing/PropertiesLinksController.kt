@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate
+package com.example.demo.api.realestate.routing
 
 import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesHandler
 import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesResponse
