@@ -21,8 +21,6 @@ import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesRequest
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesResponse
 import com.example.demo.api.realestate.handler.update.UpdatePropertyHandler
 import com.example.demo.api.realestate.handler.update.UpdatePropertyRequest
-
-import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -52,15 +50,15 @@ class PropertiesController(
     fun update(@PathVariable propertyId: UUID, @RequestBody request: UpdatePropertyRequest): PropertyResponse =
             updateHandler.handle(propertyId, request)
 
-    @PostMapping("/properties/search", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @PostMapping("/properties/search")
     fun search(@RequestBody request: SearchPropertiesRequest): SearchPropertiesResponse =
             searchHandler.handle(request)
 
-    @PostMapping("/properties/link", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @PostMapping("/properties/link")
     fun link(@RequestBody request: LinkPropertiesRequest): LinkPropertiesResponse =
             linkHandler.handle(request)
 
-    @PostMapping("/properties/unlink", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @PostMapping("/properties/unlink")
     fun unlink(@RequestBody request: UnlinkPropertiesRequest): UnlinkPropertiesResponse =
             unlinkHandler.handle(request)
 
