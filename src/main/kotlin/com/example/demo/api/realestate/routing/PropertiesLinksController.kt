@@ -1,10 +1,10 @@
 package com.example.demo.api.realestate.routing
 
-import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesHandler
-import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesResponse
 import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesHandler
 import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesRequest
 import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesResponse
+import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesHandler
+import com.example.demo.api.realestate.handler.properties.links.duplicates.ListDuplicatePropertiesResponse
 import com.example.demo.api.realestate.handler.properties.links.linked_by.PropertyLinkedByHandler
 import com.example.demo.api.realestate.handler.properties.links.linked_by.PropertyLinkedByResponse
 import com.example.demo.api.realestate.handler.properties.links.linked_to.PropertyLinksToHandler
