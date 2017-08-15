@@ -1,8 +1,8 @@
 package com.example.demo.api.realestate.handler.unlink
 
+import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyLinksService
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
-import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity
 import com.example.demo.querydsl.and
 import com.querydsl.core.QueryResults
 import com.querydsl.jpa.impl.JPAQueryFactory

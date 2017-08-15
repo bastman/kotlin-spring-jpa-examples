@@ -1,9 +1,9 @@
 package com.example.demo.api.realestate.handler.create
 
 import com.example.demo.api.common.validation.validateRequest
-import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import com.example.demo.api.realestate.domain.jpa.entities.Property
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyAddress
+import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import com.example.demo.api.realestate.handler.common.response.PropertyResponse
 import org.springframework.stereotype.Component
 import org.springframework.validation.Validator

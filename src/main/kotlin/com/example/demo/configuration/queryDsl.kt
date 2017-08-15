@@ -28,7 +28,6 @@ class QuerydslConfig(
     */
 
 
-
     val jpaQueryFactory: JPAQueryFactory
         @Bean
         get() {
