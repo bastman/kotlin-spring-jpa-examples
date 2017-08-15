@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.cluster_members
+package com.example.demo.api.realestate.handler.properties.cluster.cluster_members
 
 import com.example.demo.api.realestate.domain.jpa.entities.Property
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyCluster

@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.join_cluster
+package com.example.demo.api.realestate.handler.properties.cluster.join_cluster
 
 import java.util.*
 

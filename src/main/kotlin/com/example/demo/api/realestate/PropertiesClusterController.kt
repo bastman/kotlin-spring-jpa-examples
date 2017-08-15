@@ -1,13 +1,13 @@
 package com.example.demo.api.realestate
 
-import com.example.demo.api.realestate.handler.cluster_members.ListPropertyClusterMembersHandler
-import com.example.demo.api.realestate.handler.cluster_members.PropertyClusterMembersResponse
-import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterHandler
-import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterRequest
-import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterResponse
-import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterHandler
-import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterRequest
-import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterResponse
+import com.example.demo.api.realestate.handler.properties.cluster.cluster_members.ListPropertyClusterMembersHandler
+import com.example.demo.api.realestate.handler.properties.cluster.cluster_members.PropertyClusterMembersResponse
+import com.example.demo.api.realestate.handler.properties.cluster.join_cluster.JoinPropertyClusterHandler
+import com.example.demo.api.realestate.handler.properties.cluster.join_cluster.JoinPropertyClusterRequest
+import com.example.demo.api.realestate.handler.properties.cluster.join_cluster.JoinPropertyClusterResponse
+import com.example.demo.api.realestate.handler.properties.cluster.split_cluster.SplitPropertyClusterHandler
+import com.example.demo.api.realestate.handler.properties.cluster.split_cluster.SplitPropertyClusterRequest
+import com.example.demo.api.realestate.handler.properties.cluster.split_cluster.SplitPropertyClusterResponse
 import org.springframework.web.bind.annotation.*
 import java.util.*
 

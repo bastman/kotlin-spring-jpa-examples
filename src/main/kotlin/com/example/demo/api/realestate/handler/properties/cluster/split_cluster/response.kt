@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.split_cluster
+package com.example.demo.api.realestate.handler.properties.cluster.split_cluster
 
 import com.example.demo.api.realestate.domain.jpa.entities.Property
 import com.example.demo.api.realestate.handler.common.response.PropertyDto
