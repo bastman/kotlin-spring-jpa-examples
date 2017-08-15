@@ -19,6 +19,9 @@ import com.example.demo.api.realestate.handler.links_to.PropertyLinksToResponse
 import com.example.demo.api.realestate.handler.search.SearchPropertiesHandler
 import com.example.demo.api.realestate.handler.search.SearchPropertiesRequest
 import com.example.demo.api.realestate.handler.search.SearchPropertiesResponse
+import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterHandler
+import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterRequest
+import com.example.demo.api.realestate.handler.split_cluster.SplitPropertyClusterResponse
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesHandler
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesRequest
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesResponse
@@ -39,7 +42,8 @@ class PropertiesController(
         private val listDuplicatesHandler: ListDuplicatePropertiesHandler,
         private val linksToHandler: PropertyLinksToHandler,
         private val linkedByHandler: PropertyLinkedByHandler,
-        private val joinClusterHandler: JoinPropertyClusterHandler
+        private val joinClusterHandler: JoinPropertyClusterHandler,
+        private val splitClusterHandler: SplitPropertyClusterHandler
 ) {
     @GetMapping("/properties/{propertyId}")
     fun getById(@PathVariable propertyId: UUID): Any? {
@@ -84,5 +88,9 @@ class PropertiesController(
             @RequestBody request:JoinPropertyClusterRequest
     ): JoinPropertyClusterResponse =
             joinClusterHandler.handle(propertyId, request)
+
+    @PostMapping("/properties/cluster/split")
+    fun splitCluster(@RequestBody request:SplitPropertyClusterRequest): SplitPropertyClusterResponse =
+            splitClusterHandler.handle(request)
 
 }

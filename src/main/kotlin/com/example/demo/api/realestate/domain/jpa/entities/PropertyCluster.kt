@@ -9,6 +9,7 @@ import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
+@Entity
 @Table(name = "propertycluster")
 data class PropertyCluster(
         @Id @Type(type = JpaTypes.UUID)

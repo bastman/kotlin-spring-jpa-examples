@@ -33,6 +33,7 @@ data class PropertyDto(
         val createdAt: Instant,
         val modified: Instant,
 
+        val clusterId:UUID?,
         val type: PropertyType,
         val name: String,
         val address: PropertyAddressDto
@@ -44,6 +45,7 @@ data class PropertyDto(
                     version = source.version,
                     createdAt = source.getCreatedAt(),
                     modified = source.getModifiedAt(),
+                    clusterId = source.clusterId,
                     type = source.type,
                     name = source.name,
                     address = PropertyAddressDto.of(source.address)
