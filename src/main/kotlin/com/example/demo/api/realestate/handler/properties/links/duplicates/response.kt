@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.duplicates
+package com.example.demo.api.realestate.handler.properties.links.duplicates
 
 import com.example.demo.api.realestate.domain.jpa.entities.Property
 import java.util.*

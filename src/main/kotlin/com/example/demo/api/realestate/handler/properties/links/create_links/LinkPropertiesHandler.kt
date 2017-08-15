@@ -23,7 +23,6 @@ class LinkPropertiesHandler(
 
         val links = markAsDuplicates(propertyId1 = propertyId1, propertyId2 = propertyId2)
 
-        // child relations?
         return LinkPropertiesResponse(
                 links = links
         )

@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.unlink
+package com.example.demo.api.realestate.handler.properties.links.unlink
 
 import java.util.*
 
