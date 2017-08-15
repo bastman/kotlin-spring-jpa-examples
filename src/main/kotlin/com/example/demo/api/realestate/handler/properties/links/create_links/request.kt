@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.link
+package com.example.demo.api.realestate.handler.properties.links.create_links
 
 import com.example.demo.api.common.BadRequestException
 import java.util.*

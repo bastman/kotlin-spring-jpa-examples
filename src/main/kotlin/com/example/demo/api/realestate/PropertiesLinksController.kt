@@ -2,13 +2,13 @@ package com.example.demo.api.realestate
 
 import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesHandler
 import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesResponse
-import com.example.demo.api.realestate.handler.link.LinkPropertiesHandler
-import com.example.demo.api.realestate.handler.link.LinkPropertiesRequest
-import com.example.demo.api.realestate.handler.link.LinkPropertiesResponse
-import com.example.demo.api.realestate.handler.linked_by.PropertyLinkedByHandler
-import com.example.demo.api.realestate.handler.linked_by.PropertyLinkedByResponse
-import com.example.demo.api.realestate.handler.links_to.PropertyLinksToHandler
-import com.example.demo.api.realestate.handler.links_to.PropertyLinksToResponse
+import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesHandler
+import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesRequest
+import com.example.demo.api.realestate.handler.properties.links.create_links.LinkPropertiesResponse
+import com.example.demo.api.realestate.handler.properties.links.linked_by.PropertyLinkedByHandler
+import com.example.demo.api.realestate.handler.properties.links.linked_by.PropertyLinkedByResponse
+import com.example.demo.api.realestate.handler.properties.links.linked_to.PropertyLinksToHandler
+import com.example.demo.api.realestate.handler.properties.links.linked_to.PropertyLinksToResponse
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesHandler
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesRequest
 import com.example.demo.api.realestate.handler.unlink.UnlinkPropertiesResponse

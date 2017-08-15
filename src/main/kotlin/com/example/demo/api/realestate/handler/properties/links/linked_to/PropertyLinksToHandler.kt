@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.links_to
+package com.example.demo.api.realestate.handler.properties.links.linked_to
 
 import com.example.demo.api.realestate.domain.jpa.entities.Property
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyLinksService

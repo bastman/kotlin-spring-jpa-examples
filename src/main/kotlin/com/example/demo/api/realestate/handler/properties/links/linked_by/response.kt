@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.handler.linked_by
+package com.example.demo.api.realestate.handler.properties.links.linked_by
 
 import com.example.demo.api.realestate.handler.common.response.PropertyDto
 
