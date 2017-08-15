@@ -1,6 +1,6 @@
 package com.example.demo.api.realestate.handler.create
 
-import com.example.demo.api.realestate.domain.PropertyType
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import io.swagger.annotations.ApiModel
 import org.hibernate.validator.constraints.NotBlank
 import javax.validation.Valid

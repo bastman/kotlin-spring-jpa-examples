@@ -1,7 +1,7 @@
 package com.example.demo.api.realestate.handler.duplicates
 
 import com.example.demo.api.realestate.domain.JpaPropertyService
-import com.example.demo.api.realestate.domain.Property
+import com.example.demo.api.realestate.domain.jpa.entities.Property
 import com.example.demo.api.realestate.domain.QueryDslEntity.qProperty
 import com.example.demo.api.realestate.domain.QueryDslEntity.qPropertyLink
 import com.example.demo.querydsl.and

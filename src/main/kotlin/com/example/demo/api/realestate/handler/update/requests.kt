@@ -1,7 +1,7 @@
 package com.example.demo.api.realestate.handler.update
 
 import com.example.demo.api.common.validation.annotations.NotBlankOrNull
-import com.example.demo.api.realestate.domain.PropertyType
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import io.swagger.annotations.ApiModel
 import javax.validation.Valid
 

@@ -1,7 +1,7 @@
 package com.example.demo.api.realestate.handler.common.request
 
 import com.example.demo.api.common.BadRequestException
-import com.example.demo.api.realestate.domain.PropertyType
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import java.time.Instant
 import java.util.*
 

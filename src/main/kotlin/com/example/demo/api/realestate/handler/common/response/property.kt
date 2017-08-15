@@ -1,8 +1,9 @@
 package com.example.demo.api.realestate.handler.common.response
 
-import com.example.demo.api.realestate.domain.Property
-import com.example.demo.api.realestate.domain.PropertyAddress
-import com.example.demo.api.realestate.domain.PropertyType
+
+import com.example.demo.api.realestate.domain.jpa.entities.Property
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyAddress
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.time.Instant
 import java.util.*

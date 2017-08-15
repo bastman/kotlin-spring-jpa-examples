@@ -1,6 +1,6 @@
 package com.example.demo.api.realestate.handler.search
 
-import com.example.demo.api.realestate.domain.PropertyType
+import com.example.demo.api.realestate.domain.jpa.entities.PropertyType
 import com.example.demo.api.realestate.domain.QueryDslEntity.qProperty
 import com.example.demo.api.realestate.handler.common.request.QueryDslRequestParser
 import com.fasterxml.jackson.annotation.JsonValue
