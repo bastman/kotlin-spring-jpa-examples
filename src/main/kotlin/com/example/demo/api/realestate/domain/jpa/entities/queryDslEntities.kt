@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.domain
+package com.example.demo.api.realestate.domain.jpa.entities
 
 import com.example.demo.api.realestate.domain.jpa.entities.QProperty
 import com.example.demo.api.realestate.domain.jpa.entities.QPropertyLink

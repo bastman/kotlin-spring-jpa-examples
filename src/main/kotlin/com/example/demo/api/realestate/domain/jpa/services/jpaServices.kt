@@ -1,9 +1,12 @@
-package com.example.demo.api.realestate.domain
+package com.example.demo.api.realestate.domain.jpa.services
 
 import com.example.demo.api.common.EntityAlreadyExistException
 import com.example.demo.api.common.EntityNotFoundException
+import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyLink
 import com.example.demo.api.realestate.domain.jpa.entities.Property
+import com.example.demo.api.realestate.domain.jpa.repositories.PropertyLinksRepository
+import com.example.demo.api.realestate.domain.jpa.repositories.PropertyRepository
 import com.example.demo.querydsl.and
 import com.example.demo.util.optionals.toNullable
 import com.querydsl.core.QueryResults

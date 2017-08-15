@@ -1,6 +1,6 @@
 package com.example.demo.api.realestate.handler.getbyid
 
-import com.example.demo.api.realestate.domain.JpaPropertyService
+import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import com.example.demo.api.realestate.handler.common.response.PropertyResponse
 import org.springframework.stereotype.Component
 import java.util.*

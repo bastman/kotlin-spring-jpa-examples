@@ -1,7 +1,7 @@
 package com.example.demo.api.realestate.handler.link
 
-import com.example.demo.api.realestate.domain.JpaPropertyLinksService
-import com.example.demo.api.realestate.domain.JpaPropertyService
+import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyLinksService
+import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyLink
 import org.springframework.stereotype.Component
 import java.time.Instant

@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.domain
+package com.example.demo.api.realestate.domain.jpa.repositories
 
 import com.example.demo.api.realestate.domain.jpa.entities.PropertyLink
 import com.example.demo.api.realestate.domain.jpa.entities.Property
