@@ -6,6 +6,9 @@ import com.example.demo.api.realestate.handler.create.CreatePropertyRequest
 import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesHandler
 import com.example.demo.api.realestate.handler.duplicates.ListDuplicatePropertiesResponse
 import com.example.demo.api.realestate.handler.getbyid.GetPropertyByIdHandler
+import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterHandler
+import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterRequest
+import com.example.demo.api.realestate.handler.join_cluster.JoinPropertyClusterResponse
 import com.example.demo.api.realestate.handler.link.LinkPropertiesHandler
 import com.example.demo.api.realestate.handler.link.LinkPropertiesRequest
 import com.example.demo.api.realestate.handler.link.LinkPropertiesResponse
@@ -35,7 +38,8 @@ class PropertiesController(
         private val unlinkHandler: UnlinkPropertiesHandler,
         private val listDuplicatesHandler: ListDuplicatePropertiesHandler,
         private val linksToHandler: PropertyLinksToHandler,
-        private val linkedByHandler: PropertyLinkedByHandler
+        private val linkedByHandler: PropertyLinkedByHandler,
+        private val joinClusterHandler: JoinPropertyClusterHandler
 ) {
     @GetMapping("/properties/{propertyId}")
     fun getById(@PathVariable propertyId: UUID): Any? {
@@ -73,5 +77,12 @@ class PropertiesController(
     @GetMapping("/properties/{propertyId}/duplicates")
     fun listDuplicates(@PathVariable propertyId: UUID): ListDuplicatePropertiesResponse =
             listDuplicatesHandler.handle(propertyId)
+
+    @PostMapping("/properties/{propertyId}/cluster/join-to")
+    fun joinCluster(
+            @PathVariable propertyId: UUID,
+            @RequestBody request:JoinPropertyClusterRequest
+    ): JoinPropertyClusterResponse =
+            joinClusterHandler.handle(propertyId, request)
 
 }
