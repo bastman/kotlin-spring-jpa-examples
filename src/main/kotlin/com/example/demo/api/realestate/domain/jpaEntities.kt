@@ -32,14 +32,14 @@ data class Property(
         @Column(name = "type", nullable = false)
         @Enumerated(EnumType.STRING)
         @get:[NotNull]
-        var type: PropertyType,
+        val type: PropertyType,
 
         @get:[NotNull]
-        var name: String, // can be blank
+        val name: String, // can be blank
 
         @Embedded
         @get:[NotNull Valid]
-        var address: PropertyAddress
+        val address: PropertyAddress
 ) {
     fun getCreatedAt(): Instant = created
     fun getModifiedAt(): Instant = modified
