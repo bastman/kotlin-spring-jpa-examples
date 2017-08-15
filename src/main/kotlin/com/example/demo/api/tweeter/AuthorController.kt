@@ -15,13 +15,12 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.*
-import javax.persistence.EntityManager
 import javax.validation.constraints.Size
 
 @RestController
+@CrossOrigin(origins = arrayOf("*"))
 class AuthorController(
-        private val jpaAuthorService: JpaAuthorService,
-        private val entityManager: EntityManager
+        private val jpaAuthorService: JpaAuthorService
 ) {
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))

@@ -4,6 +4,7 @@ import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.JpaPropertyService
 import com.example.demo.api.realestate.domain.Property
 import com.example.demo.api.realestate.domain.PropertyAddress
+import com.example.demo.api.realestate.handler.common.response.PropertyResponse
 import org.springframework.stereotype.Component
 import org.springframework.validation.Validator
 import java.time.Instant
@@ -15,13 +16,10 @@ class CreatePropertyHandler(
         private val jpaPropertyService: JpaPropertyService
 ) {
 
-    fun handle(request: CreatePropertyRequest): Any? {
-        return execute(
-                validator.validateRequest(request, "request")
-        )
-    }
+    fun handle(request: CreatePropertyRequest): PropertyResponse =
+            execute(validator.validateRequest(request, "request"))
 
-    private fun execute(request: CreatePropertyRequest): Any? {
+    private fun execute(request: CreatePropertyRequest): PropertyResponse {
         val newPropertyId = UUID.randomUUID()
         val property = Property(
                 id = newPropertyId,
@@ -40,6 +38,8 @@ class CreatePropertyHandler(
                 )
         )
 
-        return jpaPropertyService.insert(property)
+        return PropertyResponse.of(
+                property = jpaPropertyService.insert(property)
+        )
     }
 }

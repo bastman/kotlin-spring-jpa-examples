@@ -3,7 +3,6 @@ package com.example.demo.api.realestate.handler.search
 import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.Property
 import com.example.demo.api.realestate.domain.QueryDslEntity.qProperty
-import com.example.demo.api.realestate.handler.common.response.ResponsePaging
 import com.example.demo.querydsl.andAllOf
 import com.example.demo.querydsl.andAnyOf
 import com.example.demo.querydsl.orderBy
@@ -17,11 +16,8 @@ class SearchPropertiesHandler(
         private val validator: Validator,
         private val entityManager: EntityManager
 ) {
-    fun handle(request: SearchPropertiesRequest): SearchPropertiesResponse {
-        return execute(
-                request = validator.validateRequest(request, "request")
-        )
-    }
+    fun handle(request: SearchPropertiesRequest): SearchPropertiesResponse =
+            execute(request = validator.validateRequest(request, "request"))
 
     private fun execute(request: SearchPropertiesRequest): SearchPropertiesResponse {
         val filters = request.filter.toWhereExpressionDsl()
@@ -40,9 +36,6 @@ class SearchPropertiesHandler(
                 .limit(request.limit)
                 .fetchResults()
 
-        return SearchPropertiesResponse(
-                paging = ResponsePaging.ofResultSet(resultSet),
-                properties = resultSet.results
-        )
+        return SearchPropertiesResponse.of(resultSet)
     }
 }

@@ -13,6 +13,7 @@ import java.time.Instant
 import java.util.*
 
 @RestController
+@CrossOrigin(origins = arrayOf("*"))
 class TweetController(
         private val jpaTweetService: JpaTweetService,
         private val jpaAuthorService: JpaAuthorService

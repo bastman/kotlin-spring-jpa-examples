@@ -4,6 +4,7 @@ import com.example.demo.api.common.validation.validateRequest
 import com.example.demo.api.realestate.domain.JpaPropertyService
 import com.example.demo.api.realestate.domain.Property
 import com.example.demo.api.realestate.domain.PropertyAddress
+import com.example.demo.api.realestate.handler.common.response.PropertyResponse
 import com.example.demo.util.fp.pipe
 import org.springframework.stereotype.Component
 import org.springframework.validation.Validator
@@ -15,22 +16,20 @@ class UpdatePropertyHandler(
         private val jpaPropertyService: JpaPropertyService
 ) {
 
-    fun handle(propertyId: UUID, request: UpdatePropertyRequest): Any? {
-        return execute(
-                propertyId = propertyId,
-                request = validator.validateRequest(request, "request"))
-    }
+    fun handle(propertyId: UUID, request: UpdatePropertyRequest): PropertyResponse =
+            execute(
+                    propertyId = propertyId,
+                    request = validator.validateRequest(request, "request")
+            )
 
-    private fun execute(
-            propertyId: UUID,
-            request: UpdatePropertyRequest
-    ): Any? {
+    private fun execute(propertyId: UUID, request: UpdatePropertyRequest): PropertyResponse {
         val property = jpaPropertyService.getById(propertyId)
                 .copyWithUpdateRequest(request)
 
-        return jpaPropertyService.update(property)
+        return PropertyResponse.of(
+                property = jpaPropertyService.update(property)
+        )
     }
-
 }
 
 private fun Property.copyWithUpdateRequest(req: UpdatePropertyRequest): Property {

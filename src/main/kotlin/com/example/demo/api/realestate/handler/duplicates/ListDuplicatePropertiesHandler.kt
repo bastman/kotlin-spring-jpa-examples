@@ -93,3 +93,8 @@ class ListDuplicatePropertiesHandler(
         return resultSet.results
     }
 }
+
+data class LinkIdAndPropertyId(
+        val linkId: UUID,
+        val propertyId: UUID
+)

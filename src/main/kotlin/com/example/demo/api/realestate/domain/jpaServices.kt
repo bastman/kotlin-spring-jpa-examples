@@ -2,14 +2,20 @@ package com.example.demo.api.realestate.domain
 
 import com.example.demo.api.common.EntityAlreadyExistException
 import com.example.demo.api.common.EntityNotFoundException
+import com.example.demo.querydsl.and
 import com.example.demo.util.optionals.toNullable
+import com.querydsl.core.QueryResults
+import com.querydsl.jpa.impl.JPAQuery
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import java.util.*
+import javax.persistence.EntityManager
 import javax.validation.Valid
 
 @Component
 class JpaPropertyService(
-        private val propertyRepository: PropertyRepository
+        private val propertyRepository: PropertyRepository,
+        private val entityManager: EntityManager
 ) {
     fun exists(propertyId: UUID): Boolean = propertyRepository.exists(propertyId)
 
@@ -52,11 +58,25 @@ class JpaPropertyService(
                 "ENTITY NOT FOUND! query: property.id=$propertyId"
         )
     }
+
+    fun findPropertiesByIdList(
+            propertyIdList: List<UUID>
+    ): List<Property> {
+        val query = JPAQuery<Property>(entityManager)
+        val resultSet = query.from(QueryDslEntity.qProperty)
+                .where(
+                        QueryDslEntity.qProperty.id.`in`(propertyIdList)
+                )
+                .fetchResults()
+
+        return resultSet.results
+    }
 }
 
 @Component
 class JpaPropertyLinksService(
-        private val propertyLinksRepository: PropertyLinksRepository
+        private val propertyLinksRepository: PropertyLinksRepository,
+        private val queryFactory: JPAQueryFactory
 ) {
 
     fun exists(propertyLinkId: UUID): Boolean = propertyLinksRepository.exists(propertyLinkId)
@@ -104,4 +124,41 @@ class JpaPropertyLinksService(
     fun delete(link: PropertyLink) {
         return propertyLinksRepository.delete(link)
     }
+
+    fun selectFromPropertyIdsWhereToPropertyIdEquals(
+            toPropertyId: UUID, offset: Long = 0, limit: Long
+    ): List<UUID> {
+        val resultSet: QueryResults<UUID> = queryFactory
+                .select(QueryDslEntity.qPropertyLink.fromPropertyId)
+                .from(QueryDslEntity.qPropertyLink)
+                .where(
+                        QueryDslEntity.qPropertyLink.toPropertyId.eq(toPropertyId) and
+                                QueryDslEntity.qPropertyLink.fromPropertyId.ne(toPropertyId)
+                )
+                .orderBy(QueryDslEntity.qPropertyLink.modified.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetchResults()
+
+        return resultSet.results
+    }
+
+    fun selectToPropertyIdsWhereFromPropertyIdEquals(
+            fromPropertyId: UUID, offset: Long = 0, limit: Long
+    ): List<UUID> {
+        val resultSet: QueryResults<UUID> = queryFactory
+                .select(QueryDslEntity.qPropertyLink.toPropertyId)
+                .from(QueryDslEntity.qPropertyLink)
+                .where(
+                        QueryDslEntity.qPropertyLink.fromPropertyId.eq(fromPropertyId) and
+                                QueryDslEntity.qPropertyLink.toPropertyId.ne(fromPropertyId)
+                )
+                .orderBy(QueryDslEntity.qPropertyLink.modified.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetchResults()
+
+        return resultSet.results
+    }
+
 }

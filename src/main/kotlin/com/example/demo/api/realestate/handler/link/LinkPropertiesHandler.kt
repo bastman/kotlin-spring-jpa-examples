@@ -2,7 +2,6 @@ package com.example.demo.api.realestate.handler.link
 
 import com.example.demo.api.realestate.domain.JpaPropertyLinksService
 import com.example.demo.api.realestate.domain.JpaPropertyService
-import com.example.demo.api.realestate.domain.Property
 import com.example.demo.api.realestate.domain.PropertyLink
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -19,21 +18,28 @@ class LinkPropertiesHandler(
     }
 
     private fun execute(request: LinkPropertiesRequest): LinkPropertiesResponse {
-        val property1 = jpaPropertyService.getById(request.propertyId1)
-        val property2 = jpaPropertyService.getById(request.propertyId2)
+        val propertyId1: UUID = jpaPropertyService.requireExists(request.propertyId1)
+        val propertyId2: UUID = jpaPropertyService.requireExists(request.propertyId2)
 
-        val property1ToProperty2Link = link(from = property1, to = property2)
-        val property2ToProperty1Link = link(from = property2, to = property1)
+        val links = markAsDuplicates(propertyId1 = propertyId1, propertyId2 = propertyId2)
 
+        // child relations?
         return LinkPropertiesResponse(
-                links = listOf(property1ToProperty2Link, property2ToProperty1Link)
+                links = links
         )
     }
 
-    private fun link(from: Property, to: Property): PropertyLink {
+    private fun markAsDuplicates(
+            propertyId1: UUID, propertyId2: UUID
+    ): List<PropertyLink> {
+        val property1ToProperty2Link = link(fromPropertyId = propertyId1, toPropertyId = propertyId2)
+        val property2ToProperty1Link = link(fromPropertyId = propertyId2, toPropertyId = propertyId1)
+        return listOf(property1ToProperty2Link, property2ToProperty1Link)
+    }
 
+    private fun link(fromPropertyId: UUID, toPropertyId: UUID): PropertyLink {
         val link = jpaPropertyLinksService.findByFromPropertyIdAndToPropertyId(
-                from.id, to.id
+                fromPropertyId = fromPropertyId, toPropertyId = toPropertyId
         )
 
         if (link != null) {
@@ -45,9 +51,10 @@ class LinkPropertiesHandler(
                 id = UUID.randomUUID(),
                 created = Instant.now(),
                 modified = Instant.now(),
-                fromPropertyId = from.id,
-                toPropertyId = to.id
+                fromPropertyId = fromPropertyId,
+                toPropertyId = toPropertyId
         )
+
         return jpaPropertyLinksService.insert(newLink)
     }
 }

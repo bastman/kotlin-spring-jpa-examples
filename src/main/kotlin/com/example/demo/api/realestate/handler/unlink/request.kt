@@ -5,11 +5,11 @@ import com.example.demo.api.common.BadRequestException
 import java.util.*
 
 data class UnlinkPropertiesRequest(
-        val propertyId1: UUID,
-        val propertyId2: UUID
+        val fromPropertyId: UUID,
+        val toPropertyId: UUID
 ) {
     fun validated(): UnlinkPropertiesRequest {
-        if (propertyId1 == propertyId2) {
+        if (fromPropertyId == toPropertyId) {
             throw BadRequestException("request.propertyId1 must not equal request.propertyId2 !")
         }
         return this
