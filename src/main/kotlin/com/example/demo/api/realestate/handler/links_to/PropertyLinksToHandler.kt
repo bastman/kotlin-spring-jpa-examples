@@ -23,7 +23,7 @@ class PropertyLinksToHandler(
                 )
 
         val properties: List<Property> = jpaPropertyService
-                .findPropertiesByIdList(propertyIdList)
+                .findByIdList(propertyIdList)
 
         return PropertyLinksToResponse(
                 linksTo = properties.map { it.toDto() },

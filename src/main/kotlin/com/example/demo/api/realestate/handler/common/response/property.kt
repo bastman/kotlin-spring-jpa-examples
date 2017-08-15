@@ -33,7 +33,7 @@ data class PropertyDto(
         val createdAt: Instant,
         val modified: Instant,
 
-        val clusterId:UUID?,
+        val clusterId: UUID?,
         val type: PropertyType,
         val name: String,
         val address: PropertyAddressDto

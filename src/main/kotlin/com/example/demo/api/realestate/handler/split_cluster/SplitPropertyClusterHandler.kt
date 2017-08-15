@@ -6,47 +6,47 @@ import com.example.demo.api.realestate.domain.jpa.entities.PropertyCluster
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyClusterService
 import com.example.demo.api.realestate.domain.jpa.services.JpaPropertyService
 import org.springframework.stereotype.Component
-import java.util.*
 import org.springframework.validation.Validator
 import java.time.Instant
+import java.util.*
 
 @Component
 class SplitPropertyClusterHandler(
-      private val validator: Validator,
-      private val jpaPropertyService: JpaPropertyService,
-      private val jpaClusterService: JpaPropertyClusterService
+        private val validator: Validator,
+        private val jpaPropertyService: JpaPropertyService,
+        private val jpaClusterService: JpaPropertyClusterService
 ) {
 
-    fun handle(request: SplitPropertyClusterRequest):SplitPropertyClusterResponse =
-        execute(propertyIds = validator
-                        .validateRequest(request, "request")
-                        .propertyIds
-        )
+    fun handle(request: SplitPropertyClusterRequest): SplitPropertyClusterResponse =
+            execute(propertyIds = validator
+                    .validateRequest(request, "request")
+                    .propertyIds
+            )
 
-    private fun execute(propertyIds:List<UUID>):SplitPropertyClusterResponse {
+    private fun execute(propertyIds: List<UUID>): SplitPropertyClusterResponse {
         // move properties into new clusters (depending on their current clusterId)
-        val properties:List<Property> = jpaPropertyService
-                .findPropertiesByIdList(propertyIdList = propertyIds.distinct())
+        val properties: List<Property> = jpaPropertyService
+                .findByIdList(propertyIdList = propertyIds.distinct())
         val byClusterId = properties
                 .groupBy { it.clusterId }
 
         val savedProperties: List<Property> =
                 byClusterId.entries
                         .flatMap {
-                            val oldClusterId:UUID? = it.key
-                            if(oldClusterId==null) {
+                            val oldClusterId: UUID? = it.key
+                            if (oldClusterId == null) {
                                 it.value
                             } else {
-                                createClusterAndSaveWithProperties(properties=it.value)
+                                createClusterAndSaveWithProperties(properties = it.value)
                             }
                         }
 
         return SplitPropertyClusterResponse.of(savedProperties)
     }
 
-    private fun createClusterAndSaveWithProperties(properties:List<Property>):List<Property> {
+    private fun createClusterAndSaveWithProperties(properties: List<Property>): List<Property> {
 
-        if(properties.size<=1) {
+        if (properties.size <= 1) {
             // special case:  properties contains no more than one item
             // -> no new cluster, just reset property.clusterId to null
             return properties.map {
@@ -62,7 +62,7 @@ class SplitPropertyClusterHandler(
                 created = Instant.now(),
                 modified = Instant.now()
         )
-        val savedClusterId:UUID = jpaClusterService
+        val savedClusterId: UUID = jpaClusterService
                 .insert(newCluster)
                 .id
 

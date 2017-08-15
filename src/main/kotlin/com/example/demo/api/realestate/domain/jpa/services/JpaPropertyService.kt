@@ -3,7 +3,7 @@ package com.example.demo.api.realestate.domain.jpa.services
 import com.example.demo.api.common.EntityAlreadyExistException
 import com.example.demo.api.common.EntityNotFoundException
 import com.example.demo.api.realestate.domain.jpa.entities.Property
-import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity
+import com.example.demo.api.realestate.domain.jpa.entities.QueryDslEntity.qProperty
 import com.example.demo.api.realestate.domain.jpa.repositories.PropertyRepository
 import com.example.demo.util.optionals.toNullable
 import com.querydsl.jpa.impl.JPAQuery
@@ -59,13 +59,24 @@ class JpaPropertyService(
         )
     }
 
-    fun findPropertiesByIdList(
+    fun findByIdList(
             propertyIdList: List<UUID>
     ): List<Property> {
         val query = JPAQuery<Property>(entityManager)
-        val resultSet = query.from(QueryDslEntity.qProperty)
+        val resultSet = query.from(qProperty)
                 .where(
-                        QueryDslEntity.qProperty.id.`in`(propertyIdList)
+                        qProperty.id.`in`(propertyIdList)
+                )
+                .fetchResults()
+
+        return resultSet.results
+    }
+
+    fun findByClusterId(clusterId: UUID): List<Property> {
+        val query = JPAQuery<Property>(entityManager)
+        val resultSet = query.from(qProperty)
+                .where(
+                        qProperty.clusterId.eq(clusterId)
                 )
                 .fetchResults()
 

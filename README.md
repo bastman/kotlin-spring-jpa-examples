@@ -40,6 +40,6 @@ playground for kotlin, spring boot and jpa
 
 - example implementation: 
 
-        com.example.demo.api.realestate.PropertiesController.search()
+        com.example.demo.api.realestate.PropertiesCrudController.search()
     
     

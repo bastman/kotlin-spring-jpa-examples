@@ -4,5 +4,5 @@ import org.hibernate.validator.constraints.NotEmpty
 import java.util.*
 
 data class SplitPropertyClusterRequest(
-        @get:NotEmpty val propertyIds:List<UUID>
+        @get:NotEmpty val propertyIds: List<UUID>
 )

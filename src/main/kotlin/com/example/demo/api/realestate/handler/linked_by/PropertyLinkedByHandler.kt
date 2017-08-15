@@ -23,7 +23,7 @@ class PropertyLinkedByHandler(
                 )
 
         val properties: List<Property> = jpaPropertyService
-                .findPropertiesByIdList(propertyIdList)
+                .findByIdList(propertyIdList)
 
         return PropertyLinkedByResponse(
                 linkedBy = properties.map { it.toDto() },
