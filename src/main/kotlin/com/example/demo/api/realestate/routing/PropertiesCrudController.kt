@@ -21,9 +21,8 @@ class PropertiesCrudController(
         private val searchHandler: SearchPropertiesHandler
 ) {
     @GetMapping("/properties/{propertyId}")
-    fun getById(@PathVariable propertyId: UUID): Any? {
-        return getByIdHandler.handle(propertyId)
-    }
+    fun getById(@PathVariable propertyId: UUID): PropertyResponse =
+            getByIdHandler.handle(propertyId)
 
     @PostMapping("/properties")
     fun create(@RequestBody request: CreatePropertyRequest): PropertyResponse =

@@ -39,18 +39,17 @@ data class PropertyDto(
         val address: PropertyAddressDto
 ) {
     companion object {
-        fun of(source: Property): PropertyDto {
-            return PropertyDto(
-                    id = source.id,
-                    version = source.version,
-                    createdAt = source.getCreatedAt(),
-                    modified = source.getModifiedAt(),
-                    clusterId = source.clusterId,
-                    type = source.type,
-                    name = source.name,
-                    address = PropertyAddressDto.of(source.address)
-            )
-        }
+        fun of(source: Property): PropertyDto =
+                PropertyDto(
+                        id = source.id,
+                        version = source.version,
+                        createdAt = source.getCreatedAt(),
+                        modified = source.getModifiedAt(),
+                        clusterId = source.clusterId,
+                        type = source.type,
+                        name = source.name,
+                        address = PropertyAddressDto.of(source.address)
+                )
     }
 }
 
@@ -64,17 +63,16 @@ data class PropertyAddressDto(
         val neighborhood: String
 ) {
     companion object {
-        fun of(source: PropertyAddress): PropertyAddressDto {
-            return PropertyAddressDto(
-                    country = source.country,
-                    city = source.city,
-                    zip = source.zip,
-                    street = source.street,
-                    number = source.number,
-                    district = source.district,
-                    neighborhood = source.neighborhood
-            )
-        }
+        fun of(source: PropertyAddress): PropertyAddressDto =
+                PropertyAddressDto(
+                        country = source.country,
+                        city = source.city,
+                        zip = source.zip,
+                        street = source.street,
+                        number = source.number,
+                        district = source.district,
+                        neighborhood = source.neighborhood
+                )
     }
 }
 

@@ -98,4 +98,8 @@ data class BrokerAddress(
         @Column(name = "address_number", nullable = false)
         @get:[NotNull]
         val number: String
-)
+) {
+    companion object {
+        val EMPTY = BrokerAddress(country = "", state = "", city = "", street = "", number = "")
+    }
+}
