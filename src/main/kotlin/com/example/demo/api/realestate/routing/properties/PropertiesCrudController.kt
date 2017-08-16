@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.routing
+package com.example.demo.api.realestate.routing.properties
 
 import com.example.demo.api.realestate.handler.common.response.PropertyResponse
 import com.example.demo.api.realestate.handler.properties.crud.create.CreatePropertyHandler

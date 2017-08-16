@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.routing
+package com.example.demo.api.realestate.routing.brokers
 
 import com.example.demo.api.realestate.handler.brokers.crud.create.CreateBrokerHandler
 import com.example.demo.api.realestate.handler.brokers.crud.create.CreateBrokerRequest

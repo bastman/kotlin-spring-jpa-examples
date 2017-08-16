@@ -1,4 +1,4 @@
-package com.example.demo.api.realestate.routing
+package com.example.demo.api.realestate.routing.properties
 
 import com.example.demo.api.realestate.handler.properties.cluster.cluster_members.ListPropertyClusterMembersHandler
 import com.example.demo.api.realestate.handler.properties.cluster.cluster_members.PropertyClusterMembersResponse
