@@ -7,11 +7,11 @@ import javax.validation.Valid
 
 data class CreateBrokerRequest(
         @get: [Email] val email: String,
-        val companyName:String?,
-        val firstName:String?,
-        val lastName:String?,
-        val phoneNumber:String?,
-        val comment:String?,
+        val companyName: String?,
+        val firstName: String?,
+        val lastName: String?,
+        val phoneNumber: String?,
+        val comment: String?,
         @get: [Valid] val address: BrokerAddress
 ) {
     @ApiModel("CreateBrokerRequest.BrokerAddress")
