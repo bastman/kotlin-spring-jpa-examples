@@ -41,13 +41,11 @@ class JpaPropertyClusterService(
 
     fun insert(@Valid propertyCluster: PropertyCluster): PropertyCluster {
         requireDoesNotExist(propertyCluster.id)
-
         return propertyClusterRepository.save(propertyCluster)
     }
 
     fun update(@Valid propertyCluster: PropertyCluster): PropertyCluster {
         requireExists(propertyCluster.id)
-
         return propertyClusterRepository.save(propertyCluster)
     }
 }

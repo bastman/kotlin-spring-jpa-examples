@@ -19,49 +19,41 @@ class JpaPropertyService(
 ) {
     fun exists(propertyId: UUID): Boolean = propertyRepository.exists(propertyId)
 
-    fun requireExists(propertyId: UUID): UUID {
-        return if (exists(propertyId)) {
-            propertyId
-        } else throw EntityNotFoundException(
-                "ENTITY NOT FOUND! query: property.id=$propertyId"
-        )
-    }
+    fun findById(propertyId: UUID): Property? =
+            propertyRepository
+                    .getById(propertyId)
+                    .toNullable()
 
-    fun requireDoesNotExist(propertyId: UUID): UUID {
-        return if (!exists(propertyId)) {
-            propertyId
-        } else throw EntityAlreadyExistException(
-                "ENTITY ALREADY EXIST! query: property.id=$propertyId"
-        )
-    }
+    fun getById(propertyId: UUID): Property =
+            findById(propertyId) ?: throw EntityNotFoundException(
+                    "ENTITY NOT FOUND! query: property.id=$propertyId"
+            )
+
+    fun requireExists(propertyId: UUID): UUID =
+            if (exists(propertyId)) {
+                propertyId
+            } else throw EntityNotFoundException(
+                    "ENTITY NOT FOUND! query: property.id=$propertyId"
+            )
+
+    fun requireDoesNotExist(propertyId: UUID): UUID =
+            if (!exists(propertyId)) {
+                propertyId
+            } else throw EntityAlreadyExistException(
+                    "ENTITY ALREADY EXIST! query: property.id=$propertyId"
+            )
 
     fun insert(@Valid property: Property): Property {
         requireDoesNotExist(property.id)
-
         return propertyRepository.save(property)
     }
 
     fun update(@Valid property: Property): Property {
         requireExists(property.id)
-
         return propertyRepository.save(property)
     }
 
-    fun findById(propertyId: UUID): Property? {
-        return propertyRepository
-                .getById(propertyId)
-                .toNullable()
-    }
-
-    fun getById(propertyId: UUID): Property {
-        return findById(propertyId) ?: throw EntityNotFoundException(
-                "ENTITY NOT FOUND! query: property.id=$propertyId"
-        )
-    }
-
-    fun findByIdList(
-            propertyIdList: List<UUID>
-    ): List<Property> {
+    fun findByIdList(propertyIdList: List<UUID>): List<Property> {
         val query = JPAQuery<Property>(entityManager)
         val resultSet = query.from(qProperty)
                 .where(
