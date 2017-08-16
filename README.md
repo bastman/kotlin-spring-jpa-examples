@@ -1,8 +1,9 @@
 # kotlin-spring-jpa-examples
-playground for kotlin, spring boot and jpa
+- playground for kotlin + spring-boot + bean-validation + jpa + hibernate + querydsl
+- realworld examples (just a little simplified): check api.realestate
 
-# status: in progress ...
-
+# status: 
+- its an active playground ,therefore in progress ...
 
 # requirements
 
@@ -24,20 +25,20 @@ playground for kotlin, spring boot and jpa
 
 ## findings
 
-### immutable data class as @Entity
+### hibernate: 
+- if you have to use if for whatever reason, check the logs ;) ...
+### hibernate: immutable data class as @Entity
 - in jpa/hibernate context it gets proxied by cglib & bean validation works
 - entity.copy() -> triggers init() method, if there is one
 
-
-## jetbrains gradle plugin:
+### jetbrains gradle plugin:
 
 - https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/Module.md
 
-## querydsl: 
+### querydsl: is awesome :)
 
 - https://github.com/JetBrains/kotlin-examples/blob/master/gradle/kotlin-querydsl/build.gradle
 - https://github.com/eugenp/tutorials/tree/master/querydsl
-
 - example implementation: 
 
         com.example.demo.api.realestate.PropertiesCrudController.search()
