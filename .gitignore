@@ -13,3 +13,6 @@ out/
 # project
 build
 
+# elastic-search (embedded)
+data/
+
