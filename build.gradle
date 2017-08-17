@@ -96,6 +96,14 @@ dependencies {
     // JSR-330 javax.inject annotations - required by querydsl
     compile group: 'javax.inject', name: 'javax.inject', version: '1'
 
+    // spring-elastic-search
+    compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '2.1.6.RELEASE'
+
+    // embedded elastic-search
+    // https://mvnrepository.com/artifact/net.java.dev.jna/jna
+    runtime group: 'net.java.dev.jna', name: 'jna', version: '4.4.0'
+
+
 
     // tests
 

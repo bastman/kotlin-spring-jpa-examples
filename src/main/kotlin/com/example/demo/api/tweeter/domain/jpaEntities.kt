@@ -5,6 +5,9 @@ import com.example.demo.logging.AppLogger
 import org.hibernate.annotations.Type
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
+import org.springframework.data.elasticsearch.annotations.Document
+import org.springframework.data.elasticsearch.annotations.Field
+import org.springframework.data.elasticsearch.annotations.FieldType
 import org.springframework.validation.annotation.Validated
 import java.time.Instant
 import java.util.*
@@ -13,6 +16,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @EntityListeners(MyAuditListener::class)
+//@Document(indexName="tweeter", type = "author")
 data class Author(
         @Id
         @Type(type = JpaTypes.UUID)
@@ -20,6 +24,7 @@ data class Author(
         @Version
         val version: Int = -1,
         @Column(name = "created_at", nullable = false)
+        @Field(type = FieldType.Date)
         private var createdAt: Instant,
         @Column(name = "modified_at", nullable = false)
         private var modifiedAt: Instant,
