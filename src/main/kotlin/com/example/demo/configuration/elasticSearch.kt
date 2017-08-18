@@ -1,25 +1,15 @@
 package com.example.demo.configuration
 
-import org.elasticsearch.client.Client
-import org.elasticsearch.client.transport.TransportClient
-import org.elasticsearch.common.settings.Settings
-import org.elasticsearch.common.transport.InetSocketTransportAddress
-import org.elasticsearch.node.NodeBuilder.nodeBuilder
+import com.example.demo.util.defer.Defer
+import org.elasticsearch.client.RestClient
+import org.elasticsearch.client.http.HttpHost
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories
-import java.net.InetAddress
+
 
 @Configuration
-@EnableElasticsearchRepositories(
-        basePackages = arrayOf(
-                "com.example.demo.api.bookstore.domain.entities"
-        )
-)
-class EsConfig(
-        @Value("\${elasticsearch.useEmbedded}")
-        private val embedded: Boolean,
+class ElasticsearchConfig(
         @Value("\${elasticsearch.host}")
         private val host: String,
         @Value("\${elasticsearch.port}")
@@ -27,28 +17,37 @@ class EsConfig(
         @Value("\${elasticsearch.clustername}")
         private val clusterName: String
 ) {
+    private val defer = Defer()
+
 
     @Bean
-    fun createClient(): Client {
-        if (embedded) {
-            val currentWorkingDir = System.getProperty("user.dir");
-            val settingsBuilder = nodeBuilder().local(true).settings
-            settingsBuilder.put("path.home", currentWorkingDir)
-            val builder = nodeBuilder().local(true).settings(settingsBuilder.build())
-            val node = builder.node()
-            return node.client()
-        } else {
-            val esSettings = Settings.settingsBuilder()
-                    .put("cluster.name", clusterName)
-                    .build();
+    fun client(): RestClient {
 
-            //https://www.elastic.co/guide/en/elasticsearch/guide/current/_transport_client_versus_node_client.html
-            return TransportClient.builder()
-                    .settings(esSettings)
-                    .build()
-                    .addTransportAddress(
-                            InetSocketTransportAddress(InetAddress.getByName(host), port)
-                    );
-        }
+        val lowLevelRestClient = RestClient.builder(
+                HttpHost("localhost", 9200, "http"),
+                HttpHost("localhost", 9201, "http")).build()
+
+
+        defer.addGraceful { lowLevelRestClient.close() }
+
+        return lowLevelRestClient
+    }
+
+
+}
+
+/*
+@Configuration
+class EsHigh(
+        private val lowLevelRestClient:RestClient
+) {
+
+    @Bean
+    fun highLevel():RestHighLevelClient {
+        val highlevelClient = RestHighLevelClient(lowLevelRestClient)
+
+        return highlevelClient
     }
 }
+*/
+

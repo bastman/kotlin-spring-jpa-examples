@@ -1,9 +1,10 @@
 package com.example.demo.api.tweeter.routing
 
 import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.entities.Tweet
+import com.example.demo.api.tweeter.domain.services.EsTweetService
 import com.example.demo.api.tweeter.domain.services.JpaAuthorService
 import com.example.demo.api.tweeter.domain.services.JpaTweetService
-import com.example.demo.api.tweeter.domain.entities.Tweet
 import com.example.demo.util.fp.pipe
 import io.swagger.annotations.ApiModel
 import org.springframework.http.MediaType
@@ -16,7 +17,8 @@ import java.util.*
 @CrossOrigin(origins = arrayOf("*"))
 class TweetController(
         private val jpaTweetService: JpaTweetService,
-        private val jpaAuthorService: JpaAuthorService
+        private val jpaAuthorService: JpaAuthorService,
+        private val esTweetService: EsTweetService
 ) {
 
     @PostMapping("/tweets", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -32,6 +34,8 @@ class TweetController(
         ) pipe {
             jpaTweetService.save(it)
         }
+
+        esTweetService.put(tweet)
 
         return tweet
     }
@@ -66,7 +70,9 @@ class TweetController(
         } pipe {
             val isModified = it != sourceTweet
             if (isModified) {
-                jpaTweetService.save(it)
+                val savedTweet = jpaTweetService.save(it)
+                esTweetService.put(savedTweet)
+                savedTweet
             } else {
                 it
             }

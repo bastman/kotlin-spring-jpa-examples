@@ -1,29 +1,48 @@
 package com.example.demo.api.bookstore.domain.entities
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.elasticsearch.annotations.Document
+import java.util.*
 
-@Document(indexName = "bookstore", type = "books")
-class Book {
 
-    @Id
-    var id: String? = null
+data class Book(
+        @Id
+        var id: String? = null,
 
-    var title: String? = null
+        // https://stackoverflow.com/questions/32042430/elasticsearch-spring-data-date-format-always-is-long
+        // http://www.baeldung.com/jackson-serialize-dates
 
-    var author: String? = null
+        //@field: JsonFormat(shape = JsonFormat.Shape.STRING)
+        //@field: Temporal(TemporalType.TIMESTAMP)
+        //@JsonFormat (shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
 
-    var releaseDate: String? = null
+        //@Field(type = FieldType.Date, format = DateFormat.date_optional_time)
+        //@JsonProperty(value = "@timestamp")
+        //@Field(type = FieldType.Date, index = FieldIndex.not_analyzed, store = true, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'")
 
-    constructor() {}
+        //@JsonSerialize(using = InstantSerializer::class)
+        //@JsonFormat (shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+        //@JsonFormat (shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+        //@JsonFormat (shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+        //@Field(type = FieldType.Date, index = FieldIndex.not_analyzed, store = true, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'")
 
-    constructor(id: String, title: String, author: String, releaseDate: String) {
-        this.id = id
-        this.title = title
-        this.author = author
-        this.releaseDate = releaseDate
-    }
+        //var modifiedAt:Instant?=null,
 
+
+        //@Field(type = FieldType.Date)
+        var modifiedAt: Date? = null,
+
+        var title: String? = null,
+
+        var author: String? = null,
+
+        var releaseDate: String? = null
+) {
+
+
+    //constructor() {}
+
+
+/*
     override fun toString(): String {
         return "Book{" +
                 "id='" + id + '\'' +
@@ -32,5 +51,6 @@ class Book {
                 ", releaseDate='" + releaseDate + '\'' +
                 '}'
     }
+    */
 }
 

@@ -2,6 +2,7 @@ package com.example.demo.api.tweeter.routing
 
 import com.example.demo.api.common.Pagination
 import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.services.EsAuthorService
 import com.example.demo.api.tweeter.domain.services.JpaAuthorService
 import com.example.demo.logging.AppLogger
 import com.example.demo.util.fp.pipe
@@ -20,7 +21,8 @@ import javax.validation.constraints.Size
 @RestController
 @CrossOrigin(origins = arrayOf("*"))
 class AuthorController(
-        private val jpaAuthorService: JpaAuthorService
+        private val jpaAuthorService: JpaAuthorService,
+        private val esAuthorService: EsAuthorService
 ) {
 
     @PostMapping("/authors", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -35,6 +37,8 @@ class AuthorController(
         ) pipe {
             jpaAuthorService.save(it)
         }
+
+        esAuthorService.put(author)
 
         return author
     }
@@ -61,6 +65,8 @@ class AuthorController(
                         it
                     }
                 }
+
+        esAuthorService.put(sinkAuthor)
 
         return sinkAuthor
     }
@@ -93,18 +99,19 @@ class AuthorController(
         return response
     }
 
+
     data class FindAllResponse(
             val authors: List<Author>,
-            val pagination: Pagination
+            val pagination: Pagination?
     )
 
     @ApiModel(value = "Author.CreateRequest")
     data class CreateRequest(
             @get:[NotBlank Email]
             val email: String,
-            @get:[NotBlank Size(min = 5, max = 15)]
+            @get:[NotBlank Size(min = 1, max = 80)]
             val firstName: String,
-            @get:[NotBlank Size(min = 5, max = 15)]
+            @get:[NotBlank Size(min = 1, max = 80)]
             val lastName: String
     )
 
@@ -112,9 +119,9 @@ class AuthorController(
     data class UpdateRequest(
             @get:[NotBlank Email]
             val email: String,
-            @get:[NotBlank Size(min = 5, max = 15)]
+            @get:[NotBlank Size(min = 1, max = 80)]
             val firstName: String,
-            @get:[NotBlank Size(min = 5, max = 15)]
+            @get:[NotBlank Size(min = 1, max = 80)]
             val lastName: String
     )
 

@@ -7,7 +7,7 @@
 #spring.data.elasticsearch.properties.transport.tcp.connect_timeout=120s
 
 elasticsearch:
-  useEmbedded: true
+  useEmbedded: false
   clustername: "demo-cluster"
   host: "localhost"
   port: 9300
@@ -26,9 +26,15 @@ spring:
         # do not allow hibernate to change db schema! just validate it.
         ddl-auto: validate
   jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     serialization:
       write_dates_as_timestamps: false
-
+  data:
+    elasticsearch:
+      cluster-nodes=localhost:9300
+#spring.data.elasticsearch.cluster-nodes= # Comma-separated list of cluster node addresses. If not specified, starts a client node.
+#spring.data.elasticsearch.properties.*= # Additional properties used to configure the client.
+#spring.data.elasticsearch.repositories.enabled=true
 ---
 spring:
   profiles: dev
