@@ -1,8 +1,8 @@
-package com.example.demo.api.tweeter
+package com.example.demo.api.tweeter.routing
 
 import com.example.demo.api.common.Pagination
-import com.example.demo.api.tweeter.domain.Author
-import com.example.demo.api.tweeter.domain.JpaAuthorService
+import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.services.JpaAuthorService
 import com.example.demo.logging.AppLogger
 import com.example.demo.util.fp.pipe
 import io.swagger.annotations.ApiModel

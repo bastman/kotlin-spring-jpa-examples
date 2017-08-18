@@ -1,6 +1,10 @@
-package com.example.demo.api.tweeter.domain
+package com.example.demo.api.tweeter.domain.services
 
 import com.example.demo.api.common.EntityNotFoundException
+import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.entities.Tweet
+import com.example.demo.api.tweeter.domain.repositories.AuthorRepository
+import com.example.demo.api.tweeter.domain.repositories.TweetRepository
 import com.example.demo.util.optionals.toNullable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest

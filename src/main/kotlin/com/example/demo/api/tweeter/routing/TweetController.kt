@@ -1,9 +1,9 @@
-package com.example.demo.api.tweeter
+package com.example.demo.api.tweeter.routing
 
-import com.example.demo.api.tweeter.domain.Author
-import com.example.demo.api.tweeter.domain.JpaAuthorService
-import com.example.demo.api.tweeter.domain.JpaTweetService
-import com.example.demo.api.tweeter.domain.Tweet
+import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.services.JpaAuthorService
+import com.example.demo.api.tweeter.domain.services.JpaTweetService
+import com.example.demo.api.tweeter.domain.entities.Tweet
 import com.example.demo.util.fp.pipe
 import io.swagger.annotations.ApiModel
 import org.springframework.http.MediaType

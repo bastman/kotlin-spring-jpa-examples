@@ -1,4 +1,4 @@
-package com.example.demo.api.tweeter.domain
+package com.example.demo.api.tweeter.domain.repositories
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository

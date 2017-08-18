@@ -12,7 +12,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import java.net.InetAddress
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = arrayOf("com.example.demo.api.bookstore.domain.entities"))
+@EnableElasticsearchRepositories(
+        basePackages = arrayOf(
+                "com.example.demo.api.bookstore.domain.entities"
+        )
+)
 class EsConfig(
         @Value("\${elasticsearch.useEmbedded}")
         private val embedded: Boolean,

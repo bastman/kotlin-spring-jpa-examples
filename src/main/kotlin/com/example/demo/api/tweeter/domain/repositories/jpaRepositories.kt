@@ -1,6 +1,7 @@
-package com.example.demo.api.tweeter.domain
+package com.example.demo.api.tweeter.domain.repositories
 
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
+import com.example.demo.api.tweeter.domain.entities.Author
+import com.example.demo.api.tweeter.domain.entities.Tweet
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*

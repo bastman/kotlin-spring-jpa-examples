@@ -1,11 +1,11 @@
-package com.example.demo.api.tweeter.domain
+package com.example.demo.api.tweeter.domain.entities
 
+import com.example.demo.api.tweeter.domain.auditing.MyAuditListener
 import com.example.demo.jpa.JpaTypes
 import com.example.demo.logging.AppLogger
 import org.hibernate.annotations.Type
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
-import org.springframework.data.elasticsearch.annotations.Document
 import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType
 import org.springframework.validation.annotation.Validated
