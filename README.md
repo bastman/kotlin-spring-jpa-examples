@@ -30,7 +30,10 @@
 ### hibernate: immutable data class as @Entity
 - in jpa/hibernate context it gets proxied by cglib & bean validation works
 - entity.copy() -> triggers init() method, if there is one
-
+### hibernate: auditing
+- Auditing classes (Listeners) are no spring beans
+- @inject will not work out-of-the-box
+- thefore its pretty useless
 ### jetbrains gradle plugin:
 
 - https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/Module.md

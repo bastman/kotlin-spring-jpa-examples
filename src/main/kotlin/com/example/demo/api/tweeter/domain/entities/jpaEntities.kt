@@ -1,6 +1,7 @@
 package com.example.demo.api.tweeter.domain.entities
 
-import com.example.demo.api.tweeter.domain.auditing.MyAuditListener
+import com.example.demo.api.tweeter.domain.auditing.JpaAuthorListener
+import com.example.demo.api.tweeter.domain.auditing.JpaTweetListener
 import com.example.demo.jpa.JpaTypes
 import com.example.demo.logging.AppLogger
 import org.hibernate.annotations.Type
@@ -13,7 +14,7 @@ import javax.persistence.*
 import javax.validation.constraints.Size
 
 @Entity
-@EntityListeners(MyAuditListener::class)
+@EntityListeners(JpaAuthorListener::class)
 data class Author(
         @Id
         @Type(type = JpaTypes.UUID)
@@ -68,7 +69,7 @@ data class Author(
 }
 
 @Entity
-@EntityListeners(MyAuditListener::class)
+@EntityListeners(JpaTweetListener::class)
 data class Tweet(
         @Id
         @Type(type = JpaTypes.UUID)
