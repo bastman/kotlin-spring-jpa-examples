@@ -48,4 +48,11 @@
     
 ### elasticsearch
 - https://www.mkyong.com/spring-boot/spring-boot-spring-data-elasticsearch-example/
-    
+- spring-data-elasticsearch: dependency hell: 
+    - boot 1.5.* with spring-data-elasticsearch does not work with es 5.5
+    - es 5.5 requires spring-data-elasticsearch 2.* (boot 2.*)
+    - using es transportclient (native protocol) is not recommended by es
+    - es recommends using rest-api - which is aware of future versions of es
+    - es is currently working on a high level restapi client that should make things easy
+    - most cloud providers (hosted-es-as-a-service) just allow using rest api   
+    - several issues related to jackson-json serialization (e.g.: supports JodaTime but not Java 8 Time Api out-of-the-box) 
